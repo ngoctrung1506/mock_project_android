@@ -40,8 +40,7 @@
             android:paddingRight="@dimen/size_10dp"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="22/04/2018"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:gravity="right"
@@ -57,7 +56,6 @@
             android:layout_marginRight="@dimen/size_10dp"
             android:background="@drawable/bg_txt_old_name"
             android:paddingLeft="@dimen/size_10dp"
-            android:text="22/05/2018"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
