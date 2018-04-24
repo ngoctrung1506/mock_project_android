@@ -23,20 +23,21 @@ public class ListLessonAdapter extends BaseAdapter {
     private MainController mController;
     private boolean mIsEditable;
     private OnSendLessonNameBackToMainScreen mOnSendName;
-    private View mTypeView;
 
 
     public ListLessonAdapter(ArrayList<Lesson> lessons) {
         this.mDatasource = lessons;
     }
 
-    public ListLessonAdapter(ArrayList<Lesson> mDatasource, MainController mController,
-                             OnSendLessonNameBackToMainScreen onSendName) {
+    public ListLessonAdapter(ArrayList<Lesson> mDatasource, MainController mController, OnSendLessonNameBackToMainScreen onSendName) {
         this.mOnSendName = onSendName;
         this.mDatasource = mDatasource;
         this.mController = mController;
     }
 
+    public void setEditable(boolean editable) {
+      mIsEditable = editable;
+    }
 
     public void setListData(ArrayList<Lesson> mDatasource) {
         this.mDatasource = mDatasource;
@@ -51,9 +52,7 @@ public class ListLessonAdapter extends BaseAdapter {
 
     @Override
     public Lesson getItem(int i) {
-
-            return mDatasource.get(i);
-
+        return mDatasource.get(i);
     }
 
     @Override
@@ -61,18 +60,12 @@ public class ListLessonAdapter extends BaseAdapter {
         return i;
     }
 
-    public void setEditable(boolean editable) {
-        mIsEditable = editable;
-        notifyDataSetChanged();
-    }
-
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
 
         Context context = viewGroup.getContext();
         final Lesson lesson = getItem(i);
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder vh = null;
         if (view == null) {
             vh = new ViewHolder();
@@ -83,7 +76,7 @@ public class ListLessonAdapter extends BaseAdapter {
             vh = (ViewHolder) view.getTag();
         }
         vh.mTvName.setText(lesson.getName());
-        addListener(view, i, lesson.getName());
+        addListener(view,i, lesson.getName());
         return view;
     }
 
@@ -96,15 +89,12 @@ public class ListLessonAdapter extends BaseAdapter {
                         ClipData data = ClipData.newPlainText("", "");
                         View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                         onDragBegin(view, i);
-                        mTypeView = view;
-                        mTypeView.setTag(R.id.TAG_ONLINE_ID, Constant.TAG_OF_LIST_LESSON_ITEM);
                         view.startDrag(data, shadowBuilder, view, 0);
                     }
                     return true;
                 }
             });
-            view.setOnDragListener(
-                    new DragDropListenter(mController, i, Constant.TYPE_LIST_LESSON));
+            view.setOnDragListener(new DragDropListenter(mController, i, Constant.TYPE_LIST_LESSON));
         } else {
             view.setOnTouchListener(null);
             view.setOnDragListener(null);
@@ -119,11 +109,11 @@ public class ListLessonAdapter extends BaseAdapter {
     }
 
     private void onDragBegin(View view, int curentDrag) {
-        Message msg = new Message();
-        msg.what = Constant.DRAP_AND_DROP;
+        Message msg=new Message();
+        msg.what= Constant.DRAP_AND_DROP;
         msg.obj = Constant.EVENT_DRAP;
         msg.arg2 = curentDrag;
-        msg.sendingUid = Constant.LIST_LESSON;
+        msg.sendingUid= Constant.LIST_LESSON;
         mController.sendMessage(msg);
     }
 
@@ -137,7 +127,7 @@ public class ListLessonAdapter extends BaseAdapter {
         private TextView mTvName;
     }
 
-    public interface OnSendLessonNameBackToMainScreen {
+    public interface OnSendLessonNameBackToMainScreen{
         void onSendLessonName(String lessonName);
     }
 }

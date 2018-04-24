@@ -1,16 +1,19 @@
 package bu22.fga.mockproject_group2;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -20,12 +23,17 @@ import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.controller.MainController;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
+import bu22.fga.mockproject_group2.entity.Week;
 import bu22.fga.mockproject_group2.model.TimeTableModel;
 import bu22.fga.mockproject_group2.screen.editlesson.EditLessonActivity;
 import bu22.fga.mockproject_group2.screen.home.adapter.ListLessonAdapter;
@@ -35,7 +43,7 @@ import bu22.fga.mockproject_group2.util.DatabaseHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements OnSendLessonNameBackToMainScreen {
+public class MainActivity extends AppCompatActivity implements OnSendLessonNameBackToMainScreen{
 
     @BindView(R.id.main_grv_time_table)
     GridView mGrvTimeTable;
@@ -80,6 +88,11 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     private DatabaseHelper mDatabase = new DatabaseHelper(this);
     private Lesson mLesson;
     private ArrayList<Lesson> mListLessons = new ArrayList<>();
+    private String daytimestrat;
+    private String daytimeend;
+    private String prefname;
+    private Week newWeek;
+    private Calendar mCalendar;
 
 
     @Override
@@ -90,17 +103,140 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         initMVC();
         initView();
         addListener();
-        //    showLesson();
+        ClickCalendar();
+        SaveTimeTable();
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        //gọi hàm lưu trạng thái ở đây
+        savingPreferences();
+    }
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        //gọi hàm đọc trạng thái ở đây
+        restoringPreferences();
+    }
+
+    /**
+     * hàm lưu trạng thái
+     */
+    public void savingPreferences()
+    {
+        //tạo đối tượng getSharedPreferences
+        SharedPreferences pre=getSharedPreferences(prefname, MODE_PRIVATE);
+        //tạo đối tượng Editor để lưu thay đổi
+        SharedPreferences.Editor editor=pre.edit();
+
+        editor.clear();
+        //lưu vào editor
+        editor.putString("daystart", String.valueOf(daytimestrat));
+        editor.putString("dayend", String.valueOf(daytimeend));
+        //chấp nhận lưu xuống file
+        editor.commit();
+    }
+
+    /**
+     * hàm đọc trạng thái đã lưu trước đó
+     */
+    public void restoringPreferences()
+    {
+        SharedPreferences pre=getSharedPreferences
+                (prefname,MODE_PRIVATE);
+        //lấy  nếu không thấy giá trị mặc định là 1
+        daytimestrat  =pre.getString("daystart", "1");
+        daytimeend  =pre.getString("dayend", "1");
+        mTxtTimePeriod.setText(daytimestrat + " - " + daytimeend);
+        Message msg = new Message();
+        msg.what = Constant.LOAD_DATA;
+        mController.sendMessage(msg);
 
 
     }
 
+    private void SaveTimeTable() {
+        mBtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newWeek = new Week(daytimestrat ,daytimeend);
+                Message msg = new Message();
+                msg.what = Constant.SAVE_DATA;
+                msg.arg1=Constant.TIME_TABLE;
+                mController.sendMessage(msg);
+            }
+        });
+    }
+
+    private void ClickCalendar() {
+        mCalendar = Calendar.getInstance();
+        final int Year = mCalendar.get(Calendar.YEAR);
+        final int Moth = mCalendar.get(Calendar.MONTH);
+        final int Day = mCalendar.get(Calendar.DATE);
+        mTxtTimePeriod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        mCalendar.set(i,i1,i2);
+                        setTextRangeDateOfWeek(mCalendar);
+
+                    }
+                },Year,Moth,Day);
+                datePickerDialog.show();
+            }
+        });
+
+        mBtnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCalendar.add(Calendar.DATE, 6);
+                setTextRangeDateOfWeek(mCalendar);
+            }
+        });
+
+        mBtnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCalendar.add(Calendar.DATE, -6);
+                setTextRangeDateOfWeek(mCalendar);
+            }
+        });
+
+    }
+
+    private void setTextRangeDateOfWeek(Calendar calendar) {
+
+
+        int i = calendar.get(Calendar.DAY_OF_WEEK) - calendar.getFirstDayOfWeek();
+
+        calendar.add(Calendar.DATE, -i);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date start = calendar.getTime();
+        daytimestrat = simpleDateFormat.format(start.getTime());
+        calendar.add(Calendar.DATE, 5);
+        Date end = calendar.getTime();
+        daytimeend = simpleDateFormat.format(end.getTime());
+        mTxtTimePeriod.setText(daytimestrat + " - " + daytimeend);
+        Message msg = new Message();
+
+        msg.what = Constant.LOAD_DATA;
+        mController.sendMessage(msg);
+
+
+    }
+
+
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (intent != null && intent.getExtras() != null) {
-            ArrayList<Lesson> lessons = (ArrayList<Lesson>) intent.getExtras()
-                    .getSerializable("listLesson");
+        if(intent != null && intent.getExtras()!=null) {
+            List<Lesson> lessons = (List<Lesson>) intent.getExtras().getSerializable("listLesson");
             if (lessons != null) {
                 mListLessonAdapter.setListLesson(lessons);
                 Log.e("in", "getDataFromEditScreen: ");
@@ -111,7 +247,6 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     public TimeTableModel getmModel() {
         return mModel;
     }
-
 
     private void initMVC() {
         mModel = TimeTableModel.newInstance();
@@ -126,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
 
     private void onUpdateModel(PropertyChangeEvent event) {
         Log.d("MainActivity", "onUpdateModel ");
-        switch (event.getPropertyName()) {
+        switch (event.getPropertyName()){
             case TimeTableModel.EVENT_LOAD_DATA:
                 handleLoadData();
                 break;
@@ -140,9 +275,8 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
             mTimeTableDatasource.clear();
             mTimeTableDatasource.addAll(mModel.getTimeTable());
             mTimeTableAdapter.notifyDataSetChanged();
-
-            mListLessons.clear();
-            mListLessons.addAll(mModel.getListLessonName());
+            mLessons.clear();
+            mLessons.addAll(mModel.getListLessonName());
             mListLessonAdapter.notifyDataSetChanged();
         }
     }
@@ -150,9 +284,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     private void initView() {
         mTimeTableAdapter = new TimeTableAdapter(mTimeTableDatasource, mController);
         mGrvTimeTable.setAdapter(mTimeTableAdapter);
-
-//        ArrayList<Lesson> mList = mDatabase.getAllLessons();
-        mListLessonAdapter = new ListLessonAdapter(mListLessons, mController, this);
+        mListLessonAdapter = new ListLessonAdapter(mLessons, mController, this);
         mListLessonAdapter.setEditable(false);
         mGrvListLesson.setAdapter(mListLessonAdapter);
         Message msg = new Message();
@@ -220,6 +352,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         });
     }
 
+
     private void onRecycleBinDrop() {
         Message msg = new Message();
         msg.what = Constant.DRAP_AND_DROP;
@@ -238,12 +371,11 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         mGrvTimeTable.setEnabled(false);
         mBtnOk.setEnabled(false);
         mBtnCancel.setEnabled(false);
-        disableView(mGrvTimeTable, false);
+        disableView(mGrvTimeTable,false);
     }
 
-
     private void disableView(GridView mGrTimeTable, boolean enableView) {
-        for (int i = 0; i < mGrTimeTable.getChildCount(); i++) {
+        for (int i = 0; i <mGrTimeTable.getChildCount() ; i++) {
             mGrTimeTable.getChildAt(i).setEnabled(enableView);
         }
     }
@@ -254,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         mBtnOk.setBackgroundColor(ContextCompat.getColor(this, R.color.colorHeaderCell));
         mBtnCancel.setBackgroundColor(ContextCompat.getColor(this, R.color.colorHeaderCell));
         mBtnEditLesson.setText(getResources().getText(R.string.edit_lesson_name));
-        disableView(mGrvTimeTable, true);
+        disableView(mGrvTimeTable,true);
         mGrvTimeTable.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -268,14 +400,14 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         mBtnCancel.setEnabled(true);
     }
 
-    private void startEditActivity(String lessonName) {
+    private void startEditActivity(String lessonName){
 
 
     }
 
     @Override
     public void onSendLessonName(String lessonName) {
-        if (lessonName != null) {
+        if(lessonName != null){
             Intent intent = new Intent(this, EditLessonActivity.class);
             intent.putExtra(Constant.KEY_LESSON_NAME, lessonName);
             MainActivity.this.startActivity(intent);
@@ -300,17 +432,17 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
             public void onClick(View v) {
                 if (editTextAddLesson.getText().toString().length() > 10) {
                     Toast.makeText(MainActivity.this, "Lesson only 10 character",
-                            Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
                 } else if (editTextAddLesson.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Lesson cannot be empty",
-                            Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
                 } else {
                     mLesson = new Lesson(editTextAddLesson.getText().toString());
                     int size = mDatabase.getAllLessons().size();
-                    for (int i = 0; i <size ; i++) {
-                        if (mLesson.getName().equals(mDatabase.getAllLessons().get(i).getName())){
+                    for (int i = 0; i < size; i++) {
+                        if (mLesson.getName().equals(mDatabase.getAllLessons().get(i).getName())) {
                             Toast.makeText(MainActivity.this, "Lesson exist !!", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             mDatabase.addLesson(mLesson);
                         }
                     }
@@ -321,8 +453,8 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
                     Log.e("Add Lesson", "" + mDatabase.getAllLessons());
                     for (int i = 0; i < mDatabase.getAllLessons().size(); i++) {
                         Log.e("Add Lesson " + i,
-                                "" + mDatabase.getAllLessons().get(i).getName() + "+" + mDatabase
-                                        .getAllLessons().get(i).getId_lesson());
+                            "" + mDatabase.getAllLessons().get(i).getName() + "+" + mDatabase
+                                .getAllLessons().get(i).getId_lesson());
                     }
                     alertDialog.dismiss();
 
@@ -331,14 +463,22 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
             }
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
             }
-        });
-    }
 
+                public void setDaytimestrat(String daytimestrat) {
+                    this.daytimestrat = daytimestrat;
+                }
+                
+    public String getDaytimeend() {
+        return daytimeend;
+    }
+    
     private void removeChange() {
 
         mTimeTableDatasource.clear();
@@ -349,6 +489,9 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
 
     }
 
+    public void setmTimeTableDatasource(ArrayList<DayWithRegistedLesson> mTimeTableDatasource) {
+        this.mTimeTableDatasource = mTimeTableDatasource;
+    }
     private void showLesson() {
         mLessons.clear();
         ArrayList<Lesson> listLessons = new ArrayList<>();

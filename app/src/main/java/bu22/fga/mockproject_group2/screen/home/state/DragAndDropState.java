@@ -1,7 +1,6 @@
 package bu22.fga.mockproject_group2.screen.home.state;
 
 import android.os.Message;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,22 +39,17 @@ public class DragAndDropState extends BaseState {
                 int gridWasDragged = msg.sendingUid;
                 switch (gridWasDragged) {
                     case LIST_LESSON:
-                        ((MainActivity) mController.getView()).getmModel()
-                                .confirmIsListLessonNameItem(true);
-
+                        ((MainActivity)mController.getView()).getmModel().confirmIsListLessonNameItem(true);
                         break;
                     case TIME_TABLE:
-                        ((MainActivity) mController.getView()).getmModel()
-                                .confirmIsListLessonNameItem(false);
+                        ((MainActivity)mController.getView()).getmModel().confirmIsListLessonNameItem(false);
                         break;
                     default:
                         break;
                 }
                 mCurentDrag = msg.arg2;
-                Log.e("CurentDrag: ", "" + mCurentDrag);
                 ((MainActivity) mController.getView()).getmModel().setCurentDrag(mCurentDrag);
                 ((MainActivity) mController.getView()).getmModel().setFinishedLoadData(true);
-                Log.e("Size of database ", "" + mDatabase.getAllLessons().size());
 //                mLesson = mDatabase.getAllLessons().get(mCurentDrag);
 //                mNameLesson = mLesson.getName().toString();
 //                Log.e("ListLessonName: ",""+mLesson.getName().toString());
@@ -80,56 +74,32 @@ public class DragAndDropState extends BaseState {
 
     private void onEditLesson(Message msg) {
         int curentDrop = msg.arg2;
-        boolean isListLessonWasDragged = ((MainActivity) ((MainActivity) mController.getView()))
-                .getmModel().isListLessonNameItem();
+        boolean isListLessonWasDragged =((MainActivity)((MainActivity)mController.getView())).getmModel().isListLessonNameItem();
         Lesson curLesson = null;
         if (isListLessonWasDragged) {
-            List<Lesson> listLessonName = (((MainActivity) mController.getView())).getmModel()
-                    .getListLessonName();
-            curLesson = listLessonName
-                    .get(((MainActivity) mController.getView()).getmModel().getCurentDrag());
+            List<Lesson> listLessonName = (((MainActivity)mController.getView())).getmModel().getListLessonName();
+             curLesson = listLessonName.get(((MainActivity)mController.getView()).getmModel().getCurentDrag());
 //            ((MainActivity)mController.getView()).getmModel().setDataForEditLessonForListLesson(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson());
 
         } else {
-            ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity) mController.getView())
-                    .getmModel().getTimeTable();
-            curLesson = timeTable
-                    .get(((MainActivity) mController.getView()).getmModel().getCurentDrag())
-                    .getLesson();
+            ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity)mController.getView()).getmModel().getTimeTable();
+            curLesson = timeTable.get(((MainActivity)mController.getView()).getmModel().getCurentDrag()).getLesson();
 //            ((MainActivity)mController.getView()).getmModel().setDataForEditLessonForTimeTable(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new DayWithRegistedLesson());
         }
 
-        ((MainActivity) mController.getView()).getmModel()
-                .setDataForEditLesson(curentDrop, curLesson,
-                        ((MainActivity) mController.getView()).getmModel().getCurentDrag(),
-                        new DayWithRegistedLesson(" "));
+        ((MainActivity)mController.getView()).getmModel().setDataForEditLesson(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new DayWithRegistedLesson());
 
     }
 
     private void onDeleteLesson() {
 
-        boolean isListLessonWasDragged = ((MainActivity) mController.getView()).getmModel()
-                .isListLessonNameItem();
+        boolean isListLessonWasDragged = ((MainActivity)mController.getView()).getmModel().isListLessonNameItem();
         if (isListLessonWasDragged) {
-            List<Lesson> listLessonName = ((MainActivity) mController.getView()).getmModel()
-                    .getListLessonName();
-            ((MainActivity) mController.getView()).getmModel().setDataForDeleteLesson(
-                    ((MainActivity) mController.getView()).getmModel().getCurentDrag(),
-                    new Lesson(), "CaseListLesson");
-
-            Log.d("OLD SIZE BEFORE DELETE", "" + mDatabase.getAllLessons().size());
-            mDatabase.delete(mDatabase.getAllLessons().get(mCurentDrag));
-            //   mDatabase.delete(mLesson);
-            Log.d("OLD SIZE", "" + mDatabase.getAllLessons().size());
-            ((MainActivity) mController.getView()).loadData();
-
-
+            List<Lesson> listLessonName = ((MainActivity)mController.getView()).getmModel().getListLessonName();
+            ((MainActivity)mController.getView()).getmModel().setDataForDeleteLesson(((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson(), "CaseListLesson");
         } else {
-            ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity) mController.getView())
-                    .getmModel().getTimeTable();
-            ((MainActivity) mController.getView()).getmModel().setDataForDeleteLesson(
-                    ((MainActivity) mController.getView()).getmModel().getCurentDrag(),
-                    new Lesson(), "CaseTimeTable");
+            ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity)mController.getView()).getmModel().getTimeTable();
+            ((MainActivity)mController.getView()).getmModel().setDataForDeleteLesson(((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson(), "CaseTimeTable");
         }
     }
 
