@@ -77,9 +77,9 @@ public class SaveDataState extends BaseState {
     int week_time = mDatabaseHelper.getCoutWeek(timestart,timeend);
 
     if(week_time == 0) {
-      Toast.makeText(mController.getView(), "Khoi tao", Toast.LENGTH_LONG).show();
+     // Toast.makeText(mController.getView(), "Khoi tao", Toast.LENGTH_LONG).show();
       mDatabaseHelper.createweek(week);
-      Toast.makeText(mController.getView(), "Khoi tao" + mDatabaseHelper.getCoutWeek(timestart,timeend), Toast.LENGTH_LONG).show();
+      //Toast.makeText(mController.getView(), "Khoi tao" + mDatabaseHelper.getCoutWeek(timestart,timeend), Toast.LENGTH_LONG).show();
       Week week_by_day = mDatabaseHelper.getWeek(timestart, timeend);
 
       for (String str : hashSet) {
@@ -112,15 +112,16 @@ public class SaveDataState extends BaseState {
       ArrayList<DayOfWeek> DayOfWeeks = week_by_day.getArrayList();
       for(int i=0;i< DayOfWeeks.size();i++)
       {
+
      mDatabaseHelper.deleteDayOfWeek(DayOfWeeks.get(i).getId_DayOfWeek());
+
     }
 
       for (String str : hashSet) {
         DayOfWeek dayOfWeek = new DayOfWeek(str);
         mDatabaseHelper.createDayOfWeek(week_by_day.getId_Week(), dayOfWeek);
-        Log.d("dayOfWeek",str);
       }
-//
+
       ArrayList<DayOfWeek> DayOf_Weeks = (ArrayList<DayOfWeek>) mDatabaseHelper.getAllDayOfWeek(week_by_day.getId_Week());
       for(int i =0;i< DayOf_Weeks.size();i++)
       {

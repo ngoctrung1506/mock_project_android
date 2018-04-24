@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
 
     private void setTextRangeDateOfWeek(Calendar calendar) {
 
-
         int i = calendar.get(Calendar.DAY_OF_WEEK) - calendar.getFirstDayOfWeek();
 
         calendar.add(Calendar.DATE, -i);
@@ -216,10 +215,8 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         daytimeend = simpleDateFormat.format(end.getTime());
         mTxtTimePeriod.setText(daytimestrat + " - " + daytimeend);
         Message msg = new Message();
-
         msg.what = Constant.LOAD_DATA;
         mController.sendMessage(msg);
-
 
     }
 
@@ -280,9 +277,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         mListLessonAdapter = new ListLessonAdapter(mLessons, mController, this);
         mListLessonAdapter.setEditable(false);
         mGrvListLesson.setAdapter(mListLessonAdapter);
-        Message msg = new Message();
-        msg.what = Constant.LOAD_DATA;
-        mController.sendMessage(msg);
+
     }
 
     private void addListener() {

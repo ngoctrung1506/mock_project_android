@@ -86,10 +86,13 @@ public class TimeTableModel
         this.mTimeTable = listTimeTableData;
         this.mListLessonName = listLessonName;
         this.finishedLoadData = finishedLoadData;
+
+
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
 
     public void setDataForEditLesson(int curentDrop, Lesson curLesson, int curentDrag, DayWithRegistedLesson lesson) {
+
         int lessonPosition = (int) curentDrop / 7;
         int day = (curentDrop % 7) + 1;
 
@@ -100,6 +103,7 @@ public class TimeTableModel
         this.mTimeTable.set(curentDrag, lesson);
 
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
+
     }
 
     public void setDataForDeleteLesson(int curentDrag, Lesson lesson, String caseDelete) {

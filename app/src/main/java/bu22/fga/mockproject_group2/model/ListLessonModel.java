@@ -20,15 +20,34 @@ public class ListLessonModel {
 
   private List<Lesson> mListLesson;
 
+
   private static ListLessonModel mModel = null;
 
   private TimeTableModel mTimeTableModel = TimeTableModel.newInstance();
 
-  public static ListLessonModel newInstance() {
-    if (mModel == null) {
-      mModel = new ListLessonModel();
+    public static ListLessonModel newInstance() {
+        if (mModel == null) {
+            mModel = new ListLessonModel();
+        }
+        return mModel;
     }
-    return mModel;
+
+    public ListLessonModel() {
+        this.mPropertyChangeSupport = new PropertyChangeSupport(this);
+    }
+
+    public void setPropertyChangeSupportListenner(PropertyChangeListener listenner) {
+        mPropertyChangeSupport.addPropertyChangeListener(listenner);
+    }
+
+    public void setResultListData(List<Lesson> listLesson) {
+        this.mListLesson = listLesson;
+        this.mTimeTableModel.setmListLessonName(listLesson);
+        mPropertyChangeSupport.firePropertyChange(EVENT_SAVE_DATA, null, null);
+    }
+
+    public List<Lesson> getmListLesson() {
+        return mListLesson;
   }
 
   public ListLessonModel() {

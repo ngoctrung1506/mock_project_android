@@ -88,6 +88,11 @@ public class DragAndDropState extends BaseState {
         if (isListLessonWasDragged) {
             List<Lesson> listLessonName = ((MainActivity)mController.getView()).getmModel().getListLessonName();
             ((MainActivity)mController.getView()).getmModel().setDataForDeleteLesson(((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson(), "CaseListLesson");
+
+
+
+//            mDatabase.delete(mDatabase.getAllLessons().get(mCurentDrag));
+
         } else {
             ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity)mController.getView()).getmModel().getTimeTable();
             ((MainActivity)mController.getView()).getmModel().setDataForDeleteLesson(((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson(), "CaseTimeTable");
