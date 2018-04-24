@@ -12,17 +12,18 @@ import bu22.fga.mockproject_group2.entity.Lesson;
 
 public class ListLessonModel {
 
-    public static final String TAG = ListLessonModel.class.getName();
+  public static final String TAG = ListLessonModel.class.getName();
 
-    public static final String EVENT_SAVE_DATA = "EVENT_SAVE_DATA";
+  public static final String EVENT_SAVE_DATA = "EVENT_SAVE_DATA";
 
-    private PropertyChangeSupport mPropertyChangeSupport;
+  private PropertyChangeSupport mPropertyChangeSupport;
 
-    private List<Lesson> mListLesson;
+  private List<Lesson> mListLesson;
 
-    private static ListLessonModel mModel = null;
 
-    private TimeTableModel mTimeTableModel = TimeTableModel.newInstance();
+  private static ListLessonModel mModel = null;
+
+  private TimeTableModel mTimeTableModel = TimeTableModel.newInstance();
 
     public static ListLessonModel newInstance() {
         if (mModel == null) {
@@ -47,5 +48,23 @@ public class ListLessonModel {
 
     public List<Lesson> getmListLesson() {
         return mListLesson;
-    }
+  }
+
+  public ListLessonModel() {
+    this.mPropertyChangeSupport = new PropertyChangeSupport(this);
+  }
+
+  public void setPropertyChangeSupportListenner(PropertyChangeListener listenner) {
+    mPropertyChangeSupport.addPropertyChangeListener(listenner);
+  }
+
+  public void setResultListData(List<Lesson> listLesson){
+    this.mListLesson = listLesson;
+    this.mTimeTableModel.setmListLessonName(listLesson);
+    mPropertyChangeSupport.firePropertyChange(EVENT_SAVE_DATA, null, null);
+  }
+
+  public List<Lesson> getmListLesson() {
+    return mListLesson;
+  }
 }

@@ -112,19 +112,22 @@ public class SaveDataState extends BaseState {
       ArrayList<DayOfWeek> DayOfWeeks = week_by_day.getArrayList();
       for(int i=0;i< DayOfWeeks.size();i++)
       {
-      mDatabaseHelper.deleteDayOfWeek(DayOfWeeks.get(i).getId_DayOfWeek());
+
+     mDatabaseHelper.deleteDayOfWeek(DayOfWeeks.get(i).getId_DayOfWeek());
+
     }
 
       for (String str : hashSet) {
         DayOfWeek dayOfWeek = new DayOfWeek(str);
         mDatabaseHelper.createDayOfWeek(week_by_day.getId_Week(), dayOfWeek);
       }
-//
+
       ArrayList<DayOfWeek> DayOf_Weeks = (ArrayList<DayOfWeek>) mDatabaseHelper.getAllDayOfWeek(week_by_day.getId_Week());
       for(int i =0;i< DayOf_Weeks.size();i++)
       {
         Log.d("Day of week",DayOf_Weeks.get(i).getName());
       }
+
       for (int i = 0; i < DayOf_Weeks.size(); i++)
         for (int j = 0; j < arrayList2.size(); j++) {
           if (DayOf_Weeks.get(i).getName().equals(arrayList2.get(j).getDayOfWeek().getName())) {
