@@ -98,32 +98,32 @@ public class ConfirmDialog extends Dialog {
 
   @OnClick(R.id.dialog_confirm_txt_from)
   public void onChooseFrom() {
-    int year = 2017;
-    int month = 7;
-    int dayOfMonth = 5;
-    mCalendar = Calendar.getInstance();
-    onShowDatePickerDialog(year, month, dayOfMonth);
+    onShowDatePickerDialog(2018, 4, 0, Constant.TYPE_FROM);
   }
 
   @OnClick(R.id.dialog_confirm_txt_to)
   public void onChooseTo() {
     // Todo take real data from table
-    int year = 2017;
-    int month = 7;
-    int dayOfMonth = 5;
-    mCalendar = Calendar.getInstance();
-    onShowDatePickerDialog(year, month, dayOfMonth);
+    onShowDatePickerDialog(2018, 4, 0, Constant.TYPE_TO);
   }
 
-  private void onShowDatePickerDialog(int year, int month, int dayOfMonth) {
+  private void onShowDatePickerDialog(int year, int month, int dayOfMonth, final int type) {
+    mCalendar = Calendar.getInstance();
     new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
       @Override
       public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         mCalendar.set(year, month, dayOfMonth);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        mTxtFrom.setText(simpleDateFormat.format(mCalendar.getTime()));
+        setTimeByType(type, mCalendar);
       }
     }, year, month, dayOfMonth).show();
+
+  }
+
+  private void setTimeByType(int type, Calendar mCalendar) {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    if (type == Constant.TYPE_FROM)
+      mTxtFrom.setText(simpleDateFormat.format(mCalendar.getTime()));
+    else mTxtTo.setText(simpleDateFormat.format(mCalendar.getTime()));
   }
 
 

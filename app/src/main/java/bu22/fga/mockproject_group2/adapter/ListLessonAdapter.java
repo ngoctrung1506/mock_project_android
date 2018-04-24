@@ -1,4 +1,4 @@
-package bu22.fga.mockproject_group2.screen.home.adapter;
+package bu22.fga.mockproject_group2.adapter;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -36,8 +36,8 @@ public class ListLessonAdapter extends BaseAdapter {
         this.mController = mController;
     }
 
-    public void setEditable(boolean editable) {
-        mIsEditable = editable;
+    public void setListData(ArrayList<Lesson> mDatasource){
+        this.mDatasource = mDatasource;
         notifyDataSetChanged();
     }
 
@@ -57,6 +57,11 @@ public class ListLessonAdapter extends BaseAdapter {
         return i;
     }
 
+    public void setEditable(boolean editable) {
+        mIsEditable = editable;
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
 
@@ -69,6 +74,7 @@ public class ListLessonAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.item_row, viewGroup, false);
             vh.mTvName = view.findViewById(R.id.it_tv_lesson_name);
             view.setTag(vh);
+            view.setId(R.id.always + i+49);
         } else {
             vh = (ViewHolder) view.getTag();
         }
@@ -77,7 +83,7 @@ public class ListLessonAdapter extends BaseAdapter {
         return view;
     }
 
-    private void addListener(View view, final int i, final String lessonName) {
+    private void addListener(final View view, final int i, final String lessonName) {
         if (!mIsEditable) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -91,7 +97,7 @@ public class ListLessonAdapter extends BaseAdapter {
                     return true;
                 }
             });
-            view.setOnDragListener(new DragDropListenter(mController, i, Constant.TYPE_LIST_LESSON));
+            view.setOnDragListener(new DragDropListenter(mController, i));
         } else {
             view.setOnTouchListener(null);
             view.setOnDragListener(null);

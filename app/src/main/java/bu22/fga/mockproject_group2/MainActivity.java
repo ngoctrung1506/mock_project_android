@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.DragEvent;
@@ -13,10 +14,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -26,6 +29,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import bu22.fga.mockproject_group2.adapter.ListLessonAdapter;
+import bu22.fga.mockproject_group2.adapter.TimeTableAdapter;
 import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.controller.MainController;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
@@ -33,9 +38,7 @@ import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.entity.Week;
 import bu22.fga.mockproject_group2.model.TimeTableModel;
 import bu22.fga.mockproject_group2.screen.editlesson.EditLessonActivity;
-import bu22.fga.mockproject_group2.screen.home.adapter.ListLessonAdapter;
-import bu22.fga.mockproject_group2.screen.home.adapter.ListLessonAdapter.OnSendLessonNameBackToMainScreen;
-import bu22.fga.mockproject_group2.screen.home.adapter.TimeTableAdapter;
+import bu22.fga.mockproject_group2.util.DatabaseHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -74,31 +77,35 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     @BindView(R.id.main_img_recycle_bin)
     ImageView mImgRecycleBin;
 
-    private boolean mIsEditting = false;
-    private ArrayList<Lesson> mLessons = new ArrayList<>();
-    private ArrayList<DayWithRegistedLesson> mTimeTableDatasource = new ArrayList<>();
-    private TimeTableAdapter mTimeTableAdapter;
-    private ListLessonAdapter mListLessonAdapter;
-    private TimeTableModel mModel;
-    private MainController mController;
+  private boolean mIsEditting = false;
+  private ArrayList<Lesson> mLessons = new ArrayList<>();
+  private ArrayList<DayWithRegistedLesson> mTimeTableDatasource = new ArrayList<>();
+  private TimeTableAdapter mTimeTableAdapter;
+  private ListLessonAdapter mListLessonAdapter;
+  private TimeTableModel mModel;
+  private MainController mController;
+  private DatabaseHelper mDatabase = new DatabaseHelper(this);
+  private Lesson mLesson;
+  private ArrayList<Lesson> mListLessons = new ArrayList<>();
 
 
-    Calendar mCalendar;
-    private String prefname="my_data";
-    private  String daytimestrat= "";
-    private  String daytimeend= "";
-    private Week newWeek;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        initMVC();
-        initView();
-        addListener();
-        ClickCalendar();
-        SaveTimeTable();
-    }
+  Calendar mCalendar;
+  private String prefname = "my_data";
+  private String daytimestrat = "";
+  private String daytimeend = "";
+  private Week newWeek;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    ButterKnife.bind(this);
+    initMVC();
+    initView();
+    addListener();
+    ClickCalendar();
+    SaveTimeTable();
+  }
 
     @Override
     protected void onPause() {
@@ -382,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     }
 
     private void startEditActivity(String lessonName){
-//
+
 
     }
 
@@ -422,8 +429,25 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         return mTimeTableDatasource;
     }
 
+  private void showLesson() {
+    mLessons.clear();
+    ArrayList<Lesson> listLessons = new ArrayList<>();
+    mLessons = mDatabase.getAllLessons();
+    for (int i = 0; i < mLessons.size(); i++) {
+      listLessons.add(mLessons.get(i));
+    }
+
+    for (int i = listLessons.size(); i < 15; i++) {
+      listLessons.add(new Lesson(""));
+    }
+    mListLessonAdapter.setListData(listLessons);
+
+    mGrvListLesson.setAdapter(mListLessonAdapter);
+  }
+
     public void setmTimeTableDatasource(ArrayList<DayWithRegistedLesson> mTimeTableDatasource) {
         this.mTimeTableDatasource = mTimeTableDatasource;
     }
+
 
 }
