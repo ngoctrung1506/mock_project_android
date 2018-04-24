@@ -382,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     }
 
     private void startEditActivity(String lessonName){
-
+//
 
     }
 
