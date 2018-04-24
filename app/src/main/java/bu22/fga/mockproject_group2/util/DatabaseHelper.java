@@ -255,6 +255,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
   private List<DayWithRegistedLesson> getALLDayWithRegistedLesson(int lesson_id) {
+      return null;
   }
 
 

@@ -1,4 +1,4 @@
-package bu22.fga.mockproject_group2.screen.home.adapter;
+package bu22.fga.mockproject_group2.adapter;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -30,7 +30,7 @@ public class ListLessonAdapter extends BaseAdapter {
         this.mDatasource = lessons;
     }
 
-    public ListLessonAdapter(ArrayList<Lesson> mDatasource, MainController mController, OnSendLessonNameBackToMainScreen onSendName) {
+    public ListLessonAdapter(List<Lesson> mDatasource, MainController mController, OnSendLessonNameBackToMainScreen onSendName) {
         this.mOnSendName = onSendName;
         this.mDatasource = mDatasource;
         this.mController = mController;
@@ -100,7 +100,7 @@ public class ListLessonAdapter extends BaseAdapter {
                     return true;
                 }
             });
-            view.setOnDragListener(new DragDropListenter(mController, i, Constant.TYPE_LIST_LESSON));
+            view.setOnDragListener(new DragDropListenter(mController, i));
         } else {
             view.setOnTouchListener(null);
             view.setOnDragListener(null);

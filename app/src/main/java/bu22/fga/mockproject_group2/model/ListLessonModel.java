@@ -18,7 +18,7 @@ public class ListLessonModel {
 
   private PropertyChangeSupport mPropertyChangeSupport;
 
-  private ArrayList<Lesson> mListLesson;
+  private List<Lesson> mListLesson;
 
 
   private static ListLessonModel mModel = null;
@@ -46,7 +46,7 @@ public class ListLessonModel {
         mPropertyChangeSupport.firePropertyChange(EVENT_SAVE_DATA, null, null);
     }
 
-    public ArrayList<Lesson> getmListLesson() {
+    public List<Lesson> getmListLesson() {
         return mListLesson;
     }
 }

@@ -1,6 +1,5 @@
 package bu22.fga.mockproject_group2;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,14 +39,10 @@ import bu22.fga.mockproject_group2.entity.Week;
 import bu22.fga.mockproject_group2.model.TimeTableModel;
 import bu22.fga.mockproject_group2.screen.editlesson.EditLessonActivity;
 import bu22.fga.mockproject_group2.util.DatabaseHelper;
-import bu22.fga.mockproject_group2.screen.home.adapter.ListLessonAdapter;
-import bu22.fga.mockproject_group2.screen.home.adapter.ListLessonAdapter.OnSendLessonNameBackToMainScreen;
-import bu22.fga.mockproject_group2.screen.home.adapter.TimeTableAdapter;
-import bu22.fga.mockproject_group2.util.DatabaseHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements OnSendLessonNameBackToMainScreen{
+public class MainActivity extends AppCompatActivity implements ListLessonAdapter.OnSendLessonNameBackToMainScreen {
 
     @BindView(R.id.main_grv_time_table)
     GridView mGrvTimeTable;
@@ -92,10 +87,6 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     private DatabaseHelper mDatabase = new DatabaseHelper(this);
     private Lesson mLesson;
     private ArrayList<Lesson> mListLessons = new ArrayList<>();
-    private String daytimestrat;
-    private String daytimeend;
-    private String prefname;
-    private Week newWeek;
     private Calendar mCalendar;
 
   private String prefname = "my_data";
