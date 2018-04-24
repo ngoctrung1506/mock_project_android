@@ -45,7 +45,7 @@ public class DragAndDropState extends BaseState {
                         break;
                 }
 
-                int mCurentDrag = msg.arg2;
+                mCurentDrag = msg.arg2;
                 ((MainActivity)mController.getView()).getmModel().setCurentDrag(mCurentDrag);
                 ((MainActivity)mController.getView()).getmModel().setFinishedLoadData(true);
                 break;
@@ -69,7 +69,9 @@ public class DragAndDropState extends BaseState {
         int curentDrop = msg.arg2;
         boolean isListLessonWasDragged =((MainActivity)((MainActivity)mController.getView())).getmModel().isListLessonNameItem();
         Lesson curLesson = null;
-        if (isListLessonWasDragged) {
+        if (curentDrop != mCurentDrag) {
+
+            if (isListLessonWasDragged) {
             List<Lesson> listLessonName = (((MainActivity)mController.getView())).getmModel().getListLessonName();
              curLesson = listLessonName.get(((MainActivity)mController.getView()).getmModel().getCurentDrag());
 //            ((MainActivity)mController.getView()).getmModel().setDataForEditLessonForListLesson(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson());
@@ -80,8 +82,8 @@ public class DragAndDropState extends BaseState {
 //            ((MainActivity)mController.getView()).getmModel().setDataForEditLessonForTimeTable(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new DayWithRegistedLesson());
         }
 
-        ((MainActivity)mController.getView()).getmModel().setDataForEditLesson(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new DayWithRegistedLesson(" "));
-
+            ((MainActivity) mController.getView()).getmModel().setDataForEditLesson(curentDrop, curLesson, ((MainActivity) mController.getView()).getmModel().getCurentDrag(), new DayWithRegistedLesson(" "));
+        }
     }
 
     private void onDeleteLesson() {

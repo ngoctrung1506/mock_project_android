@@ -4,6 +4,8 @@ import android.os.Message;
 
 import bu22.fga.mockproject_group2.MainActivity;
 import bu22.fga.mockproject_group2.controller.MainController;
+import bu22.fga.mockproject_group2.entity.DayOfWeek;
+import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.util.DatabaseHelper;
 
@@ -21,11 +23,20 @@ public class LoadDataState extends BaseState {
     public void handeMessage(Message msg) {
 
      //   fakeData();
+        fakeDataForTimeTable();
         ((MainActivity)mController.getView()).getmModel().setDataToLoad(mUltilites.initTimeTableData(),mDatabase.getAllLessons(),true);
 //        mController.getView().getmModel().setListLessonName(mUltilites.initListLessName());
 //        mController.getView().getmModel().setFinishedLoadData(true);
 //        mModel.notifyObservers();
 
+    }
+
+    private void fakeDataForTimeTable() {
+        mDatabaseHelper.createDayRegistedLesson(new DayWithRegistedLesson(new DayOfWeek("Monday"), new Lesson("Hoa"), 2));
+        mDatabaseHelper.createDayRegistedLesson(new DayWithRegistedLesson(new DayOfWeek("Tuesday"), new Lesson("Ly"), 2));
+        mDatabaseHelper.createDayRegistedLesson(new DayWithRegistedLesson(new DayOfWeek("Monday"), new Lesson("Hoa"), 2));
+        mDatabaseHelper.createDayRegistedLesson(new DayWithRegistedLesson(new DayOfWeek("Monday"), new Lesson("Hoa"), 2));
+        mDatabaseHelper.createDayRegistedLesson(new DayWithRegistedLesson(new DayOfWeek("Monday"), new Lesson("Hoa"), 2));
     }
 
     private void fakeData() {
