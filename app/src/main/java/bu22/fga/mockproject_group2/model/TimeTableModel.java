@@ -3,6 +3,7 @@ package bu22.fga.mockproject_group2.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.List;
 
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
@@ -19,7 +20,7 @@ public class TimeTableModel
 
     private static TimeTableModel mModel = null;
     private ArrayList<DayWithRegistedLesson> mTimeTable;
-    private ArrayList<Lesson> mListLessonName;
+    private List<Lesson> mListLessonName;
 
     private int mCurentDrag =-1;
     private boolean mIsListLessonNameItem =false;
@@ -64,7 +65,7 @@ public class TimeTableModel
         this.finishedLoadData = finishedLoadData;
     }
 
-    public ArrayList<Lesson> getListLessonName() {
+    public List<Lesson> getListLessonName() {
         if (mListLessonName == null) {
             mListLessonName = new ArrayList<>();
         }
@@ -78,7 +79,7 @@ public class TimeTableModel
         return mModel;
     }
 
-    public void setDataToLoad(ArrayList<DayWithRegistedLesson> listTimeTableData, ArrayList<Lesson> listLessonName, boolean finishedLoadData) {
+    public void setDataToLoad(ArrayList<DayWithRegistedLesson> listTimeTableData, List<Lesson> listLessonName, boolean finishedLoadData) {
         this.mTimeTable = listTimeTableData;
         this.mListLessonName = listLessonName;
         this.finishedLoadData = finishedLoadData;
