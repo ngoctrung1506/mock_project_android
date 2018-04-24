@@ -86,10 +86,10 @@ public class TimeTableModel
     }
 
     public void setDataForEditLesson(int curentDrop, Lesson curLesson, int curentDrag, DayWithRegistedLesson lesson) {
-        this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(curLesson));
-        this.mTimeTable.set(curentDrag, lesson);
+            this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(curLesson));
+            this.mTimeTable.set(curentDrag, lesson);
 //        Log.d(TAG, "setDataForEditLesson: " + mTimeTable.get(curentDrop).getLesson().getName() + " " + mTimeTable.get(curentDrag).getLesson().getName());
-        mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
+            mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
 
     public void setDataForDeleteLesson(int curentDrag, Lesson lesson, String caseDelete) {

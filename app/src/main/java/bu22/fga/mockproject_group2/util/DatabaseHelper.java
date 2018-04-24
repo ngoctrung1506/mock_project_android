@@ -460,7 +460,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // updating row
         return db.update(TABLE_DAYWITHLESSON, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(id)});
+    }
 
+    public int updateDayRegistedLessonName(int lessonId) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int dayWithRegistedId = 0;
+        // tim id day_with_registed_lesson có lesson name = old name
+        String selectQuery = "SELECT " + KEY_ID + " FROM " + TABLE_DAYWITHLESSON + " WHERE "
+            + KEY_DAYWITHLESSON_ID_LESSON + " = " + lessonId;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if(c!=null){
+            if(c.moveToFirst()){
+                dayWithRegistedId = c.getInt((c.getColumnIndex(KEY_ID)));
+            }
+        }
+
+        // sau đó query thay thế
+        ContentValues values = new ContentValues();
+        values.put(KEY_DAYWITHLESSON_ID_LESSON, lessonId);
+
+        // updating row
+        return db.update(TABLE_DAYWITHLESSON, values, KEY_LESSON_ID + " = ?",
+            new String[]{String.valueOf(dayWithRegistedId)});
     }
 
     /**
