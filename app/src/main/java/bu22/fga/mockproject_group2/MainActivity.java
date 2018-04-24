@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     ImageView mImgRecycleBin;
 
     private boolean mIsEditting = false;
-    private ArrayList<Lesson> mLessons = new ArrayList<>();
+    private List<Lesson> mLessons = new ArrayList<>();
     private ArrayList<DayWithRegistedLesson> mTimeTableDatasource = new ArrayList<>();
     private TimeTableAdapter mTimeTableAdapter;
     private ListLessonAdapter mListLessonAdapter;
@@ -494,7 +494,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     }
     private void showLesson() {
         mLessons.clear();
-        ArrayList<Lesson> listLessons = new ArrayList<>();
+        List<Lesson> listLessons = new ArrayList<>();
         mLessons = mDatabase.getAllLessons();
         for (int i = 0; i < mLessons.size(); i++) {
             listLessons.add(mLessons.get(i));
@@ -513,5 +513,13 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     public void loadData() {
         mListLessonAdapter.setListLesson(mDatabase.getAllLessons());
         Log.d("NEW  SIZE", "" + mDatabase.getAllLessons().size());
+    }
+
+    public Week getNewWeek() {
+        return this.newWeek;
+    }
+
+    public ArrayList<DayWithRegistedLesson> getmTimeTableDatasource() {
+        return this.mTimeTableDatasource;
     }
 }

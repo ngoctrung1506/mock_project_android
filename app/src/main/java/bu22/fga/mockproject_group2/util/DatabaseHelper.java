@@ -360,7 +360,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     Cursor cursor = db.rawQuery(query, new String[]{daystart + "", dayend + ""});
     Log.e(LOG, query);
 
-   // Cursor c = db.rawQuery(selectQuery, null);
+    // Cursor c = db.rawQuery(selectQuery, null);
     int count = cursor.getCount();
     cursor.close();
 
@@ -605,23 +605,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       db.close();
   }
 
-    //delete lesson in ListLesson
-    public void delete(Lesson lesson) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_LESSON, KEY_LESSON_ID + " = ?",
-                new String[]{String.valueOf(lesson.getId_lesson())});
-        db.close();
-    }
+  //delete lesson in ListLesson
+  public void delete(Lesson lesson) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    db.delete(TABLE_LESSON, KEY_LESSON_ID + " = ?",
+        new String[]{String.valueOf(lesson.getId_lesson())});
+    db.close();
+  }
 
-    //add new Lesson
-    public void addLesson(Lesson lesson) {
-        SQLiteDatabase db = this.getWritableDatabase();
+  //add new Lesson
+  public void addLesson(Lesson lesson) {
+    SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME_LESSON, lesson.getName());
-        // insert row
-        db.insert(TABLE_LESSON, null, values);
+    ContentValues values = new ContentValues();
+    values.put(KEY_NAME_LESSON, lesson.getName());
+    // insert row
+    db.insert(TABLE_LESSON, null, values);
 
-    }
+  }
 }
 

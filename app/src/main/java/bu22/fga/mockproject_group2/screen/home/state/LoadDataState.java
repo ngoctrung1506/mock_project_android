@@ -29,7 +29,7 @@ public class LoadDataState extends BaseState {
 
         fakeData();
         int count = 0;
-        String timestart = ((MainActivity) mController.getView()).getDaytimestrat();
+        String timestart = ((MainActivity) mController.getView()).getDaytimeend();
         String timeend = ((MainActivity) mController.getView()).getDaytimeend();
 
         int cout = mDatabaseHelper.getCoutWeek(timestart, timeend);
