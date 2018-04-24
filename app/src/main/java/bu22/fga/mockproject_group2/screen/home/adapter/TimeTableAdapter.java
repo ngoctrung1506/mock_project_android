@@ -75,6 +75,7 @@ public class TimeTableAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.item_row, viewGroup, false);
             vh.mTvName = view.findViewById(R.id.it_tv_lesson_name);
             view.setTag(vh);
+            view.setId(R.id.never);
         } else {
             vh = (ViewHolder) view.getTag();
         }
@@ -94,8 +95,6 @@ public class TimeTableAdapter extends BaseAdapter {
                         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                             ClipData data = ClipData.newPlainText("", "");
                             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                            mTypeView = view;
-                            mTypeView.setTag(R.id.TAG_ONLINE_ID, Constant.TAG_OF_TIME_TABLE_ITEM);
                             onDragBegin(view, i);
                             view.startDrag(data, shadowBuilder, view, 0);
                         }

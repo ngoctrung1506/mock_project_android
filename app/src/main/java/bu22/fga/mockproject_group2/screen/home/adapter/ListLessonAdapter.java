@@ -79,6 +79,7 @@ public class ListLessonAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.item_row, viewGroup, false);
             vh.mTvName = view.findViewById(R.id.it_tv_lesson_name);
             view.setTag(vh);
+            view.setId(R.id.always);
         } else {
             vh = (ViewHolder) view.getTag();
         }
@@ -96,15 +97,13 @@ public class ListLessonAdapter extends BaseAdapter {
                         ClipData data = ClipData.newPlainText("", "");
                         View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                         onDragBegin(view, i);
-                        mTypeView = view;
-                        mTypeView.setTag(R.id.TAG_ONLINE_ID, Constant.TAG_OF_LIST_LESSON_ITEM);
                         view.startDrag(data, shadowBuilder, view, 0);
                     }
                     return true;
                 }
             });
             view.setOnDragListener(
-                    new DragDropListenter(mController, i, Constant.TYPE_LIST_LESSON));
+                    new DragDropListenter(mController, i));
         } else {
             view.setOnTouchListener(null);
             view.setOnDragListener(null);
