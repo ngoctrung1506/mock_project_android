@@ -1,10 +1,13 @@
 package bu22.fga.mockproject_group2.model;
 
+import android.util.Log;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import bu22.fga.mockproject_group2.entity.DayOfWeek;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
 
@@ -56,7 +59,7 @@ public class TimeTableModel
 
     public ArrayList<DayWithRegistedLesson> getTimeTable() {
         if (mTimeTable == null) {
-            mTimeTable = new ArrayList<>();
+            mTimeTable = new ArrayList<DayWithRegistedLesson>();
         }
         return mTimeTable;
     }
@@ -67,7 +70,7 @@ public class TimeTableModel
 
     public List<Lesson> getListLessonName() {
         if (mListLessonName == null) {
-            mListLessonName = new ArrayList<>();
+            mListLessonName = new ArrayList<Lesson>();
         }
         return mListLessonName;
     }
@@ -87,15 +90,21 @@ public class TimeTableModel
     }
 
     public void setDataForEditLesson(int curentDrop, Lesson curLesson, int curentDrag, DayWithRegistedLesson lesson) {
-            this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(curLesson));
-            this.mTimeTable.set(curentDrag, lesson);
-//        Log.d(TAG, "setDataForEditLesson: " + mTimeTable.get(curentDrop).getLesson().getName() + " " + mTimeTable.get(curentDrag).getLesson().getName());
-            mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
+        int lessonPosition = (int) curentDrop / 7;
+        int day = (curentDrop % 7) + 1;
+
+        DayOfWeek dayOfWeek = new DayOfWeek("day"+day);
+
+        Log.d("Day",dayOfWeek.getName());
+        this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(dayOfWeek,curLesson,lessonPosition));
+        this.mTimeTable.set(curentDrag, lesson);
+
+        mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
 
     public void setDataForDeleteLesson(int curentDrag, Lesson lesson, String caseDelete) {
         if(caseDelete.equals("CaseListLesson")){
-            mListLessonName.set(curentDrag, new Lesson(""));
+            mListLessonName.set(curentDrag, lesson);
         }
         else if(caseDelete.equals("CaseTimeTable")){
             mTimeTable.set(curentDrag, new DayWithRegistedLesson(lesson));
@@ -103,7 +112,7 @@ public class TimeTableModel
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
 
-    public void setmListLessonName(ArrayList<Lesson> mListLessonName) {
+    public void setmListLessonName(List<Lesson> mListLessonName) {
         this.mListLessonName = mListLessonName;
     }
 }
