@@ -1,3 +1,4 @@
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Example user template template
 ### Example user template
@@ -16,3 +17,4 @@ app/libs/
 build/
 local.properties
 mock_project_android.iml
+
