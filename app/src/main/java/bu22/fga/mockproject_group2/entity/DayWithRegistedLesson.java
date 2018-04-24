@@ -26,12 +26,14 @@ public class DayWithRegistedLesson {
         this.position = position;
     }
 
+    public DayWithRegistedLesson() {
+    }
+
     public DayWithRegistedLesson(Lesson lesson) {
         this.lesson = lesson;
     }
 
     public DayWithRegistedLesson(DayOfWeek dayOfWeek, Lesson lesson, int position) {
-
         this.dayOfWeek = dayOfWeek;
         this.lesson = lesson;
         this.position = position;
@@ -45,7 +47,8 @@ public class DayWithRegistedLesson {
         this.lesson = lesson;
     }
 
-    public DayWithRegistedLesson() {
+    public DayWithRegistedLesson(String lessonName) {
+        this.lesson = new Lesson(lessonName);
     }
 
     public int getId_DayWithRegistedLesson() {
