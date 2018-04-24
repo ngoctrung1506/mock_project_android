@@ -50,7 +50,7 @@ public class DragDropListenter implements View.OnDragListener {
         }
         return true;
     }
-
+//
     private void onDropItemFromTimeTable() {
         Message msg = new Message();
         msg.what = Constant.DRAP_AND_DROP;
