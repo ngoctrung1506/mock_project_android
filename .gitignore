@@ -1,9 +1,20 @@
+
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
 *.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
-/captures
-.externalNativeBuild
+out
+gen
+.gitignore
+.gradle/
+.idea/
+android_8118.iml
+app/app.iml
+app/libs/
+build/
+local.properties
+mock_project_android.iml
+

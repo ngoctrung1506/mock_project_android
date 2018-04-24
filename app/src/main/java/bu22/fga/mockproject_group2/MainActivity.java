@@ -268,10 +268,9 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         mBtnCancel.setEnabled(true);
     }
 
-    private void startEditActivity(String lessonName) {
 
+    private void startEditActivity(String lessonName){
 
-    }
 
     @Override
     public void onSendLessonName(String lessonName) {
