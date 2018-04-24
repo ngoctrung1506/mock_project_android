@@ -2,7 +2,6 @@ package bu22.fga.mockproject_group2.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.List;
 
 import bu22.fga.mockproject_group2.entity.Lesson;
@@ -13,17 +12,18 @@ import bu22.fga.mockproject_group2.entity.Lesson;
 
 public class ListLessonModel {
 
-    public static final String TAG = ListLessonModel.class.getName();
+  public static final String TAG = ListLessonModel.class.getName();
 
-    public static final String EVENT_SAVE_DATA = "EVENT_SAVE_DATA";
+  public static final String EVENT_SAVE_DATA = "EVENT_SAVE_DATA";
 
-    private PropertyChangeSupport mPropertyChangeSupport;
+  private PropertyChangeSupport mPropertyChangeSupport;
 
-    private ArrayList<Lesson> mListLesson;
+  private ArrayList<Lesson> mListLesson;
 
-    private static ListLessonModel mModel = null;
 
-    private TimeTableModel mTimeTableModel = TimeTableModel.newInstance();
+  private static ListLessonModel mModel = null;
+
+  private TimeTableModel mTimeTableModel = TimeTableModel.newInstance();
 
     public static ListLessonModel newInstance() {
         if (mModel == null) {
@@ -40,7 +40,7 @@ public class ListLessonModel {
         mPropertyChangeSupport.addPropertyChangeListener(listenner);
     }
 
-    public void setResultListData(ArrayList<Lesson> listLesson) {
+    public void setResultListData(List<Lesson> listLesson) {
         this.mListLesson = listLesson;
         this.mTimeTableModel.setmListLessonName(listLesson);
         mPropertyChangeSupport.firePropertyChange(EVENT_SAVE_DATA, null, null);

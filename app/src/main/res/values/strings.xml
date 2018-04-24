@@ -13,4 +13,6 @@
     <string name="enter_lesson_name">Lesson name</string>
     <item name="TAG_FROM_TABLE" type="id"/>
     <item name="TAG_FROM_LIST_LESSON" type="id"/>
+    <string name="enter_lesson_name">Enter lesson name</string>
+    <string name="Add">Add</string>
 </resources>
