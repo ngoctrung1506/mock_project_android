@@ -1,4 +1,4 @@
-package bu22.fga.mockproject_group2.screen.home.adapter;
+package bu22.fga.mockproject_group2.adapter;
 
 import android.content.ClipData;
 import android.content.Context;

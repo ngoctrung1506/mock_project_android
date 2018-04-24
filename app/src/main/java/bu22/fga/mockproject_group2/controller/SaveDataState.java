@@ -1,10 +1,9 @@
-package bu22.fga.mockproject_group2.screen.home.state;
+package bu22.fga.mockproject_group2.controller;
 
 import android.os.Message;
 import android.util.Log;
 
 import bu22.fga.mockproject_group2.constant.Constant;
-import bu22.fga.mockproject_group2.controller.MainController;
 import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.model.ListLessonModel;
 

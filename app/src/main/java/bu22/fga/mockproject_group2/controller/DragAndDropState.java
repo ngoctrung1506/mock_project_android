@@ -1,4 +1,4 @@
-package bu22.fga.mockproject_group2.screen.home.state;
+package bu22.fga.mockproject_group2.controller;
 
 import android.os.Message;
 
@@ -7,7 +7,6 @@ import java.util.List;
 
 import bu22.fga.mockproject_group2.MainActivity;
 import bu22.fga.mockproject_group2.constant.Constant;
-import bu22.fga.mockproject_group2.controller.MainController;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.util.DatabaseHelper;

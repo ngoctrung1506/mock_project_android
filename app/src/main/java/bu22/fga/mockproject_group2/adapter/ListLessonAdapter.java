@@ -1,4 +1,4 @@
-package bu22.fga.mockproject_group2.screen.home.adapter;
+package bu22.fga.mockproject_group2.adapter;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bu22.fga.mockproject_group2.R;
 import bu22.fga.mockproject_group2.constant.Constant;
@@ -34,7 +35,6 @@ public class ListLessonAdapter extends BaseAdapter {
         this.mDatasource = mDatasource;
         this.mController = mController;
     }
-
 
     public void setListData(ArrayList<Lesson> mDatasource){
         this.mDatasource = mDatasource;
