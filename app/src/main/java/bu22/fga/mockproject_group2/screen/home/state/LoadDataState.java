@@ -1,7 +1,6 @@
 package bu22.fga.mockproject_group2.screen.home.state;
 
 import android.os.Message;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -51,7 +50,6 @@ public class LoadDataState extends BaseState {
         ((MainActivity) mController.getView()).getmModel().setDataToLoad(DayWithRegistedLessons, mDatabaseHelper.getAllLessons(), true);
 
     }else {
-            Toast.makeText(mController.getView(),"Khoi dong",Toast.LENGTH_LONG).show();
 
             ((MainActivity)mController.getView()).getmModel().setDataToLoad(mUltilites.initTimeTableData(), mDatabaseHelper.getAllLessons(), true);
         }

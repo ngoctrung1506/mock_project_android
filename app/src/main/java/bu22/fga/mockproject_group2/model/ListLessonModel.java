@@ -50,21 +50,21 @@ public class ListLessonModel {
         return mListLesson;
   }
 
-  public ListLessonModel() {
-    this.mPropertyChangeSupport = new PropertyChangeSupport(this);
-  }
-
-  public void setPropertyChangeSupportListenner(PropertyChangeListener listenner) {
-    mPropertyChangeSupport.addPropertyChangeListener(listenner);
-  }
-
-  public void setResultListData(List<Lesson> listLesson){
-    this.mListLesson = listLesson;
-    this.mTimeTableModel.setmListLessonName(listLesson);
-    mPropertyChangeSupport.firePropertyChange(EVENT_SAVE_DATA, null, null);
-  }
-
-  public List<Lesson> getmListLesson() {
-    return mListLesson;
-  }
+//  public ListLessonModel() {
+//    this.mPropertyChangeSupport = new PropertyChangeSupport(this);
+//  }
+//
+//  public void setPropertyChangeSupportListenner(PropertyChangeListener listenner) {
+//    mPropertyChangeSupport.addPropertyChangeListener(listenner);
+//  }
+//
+//  public void setResultListData(List<Lesson> listLesson){
+//    this.mListLesson = listLesson;
+//    this.mTimeTableModel.setmListLessonName(listLesson);
+//    mPropertyChangeSupport.firePropertyChange(EVENT_SAVE_DATA, null, null);
+//  }
+//
+//  public List<Lesson> getmListLesson() {
+//    return mListLesson;
+//  }
 }

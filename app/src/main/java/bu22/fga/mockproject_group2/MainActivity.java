@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -197,6 +198,17 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
             public void onClick(View v) {
                 mCalendar.add(Calendar.DATE, -6);
                 setTextRangeDateOfWeek(mCalendar);
+                Toast.makeText(MainActivity.this, "Previous", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Message msg = new Message();
+                msg.what = Constant.LOAD_DATA;
+                mController.sendMessage(msg);
             }
         });
 
