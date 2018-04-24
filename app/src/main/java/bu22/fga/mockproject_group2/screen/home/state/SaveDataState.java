@@ -15,7 +15,6 @@ import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.entity.Week;
 import bu22.fga.mockproject_group2.model.ListLessonModel;
-import bu22.fga.mockproject_group2.util.DatabaseHelper;
 
 public class SaveDataState extends BaseState {
 
@@ -78,9 +77,9 @@ public class SaveDataState extends BaseState {
     int week_time = mDatabaseHelper.getCoutWeek(timestart,timeend);
 
     if(week_time == 0) {
-      Toast.makeText(mController.getView(), "Khoi tao", Toast.LENGTH_LONG).show();
+     // Toast.makeText(mController.getView(), "Khoi tao", Toast.LENGTH_LONG).show();
       mDatabaseHelper.createweek(week);
-      Toast.makeText(mController.getView(), "Khoi tao" + mDatabaseHelper.getCoutWeek(timestart,timeend), Toast.LENGTH_LONG).show();
+      //Toast.makeText(mController.getView(), "Khoi tao" + mDatabaseHelper.getCoutWeek(timestart,timeend), Toast.LENGTH_LONG).show();
       Week week_by_day = mDatabaseHelper.getWeek(timestart, timeend);
 
       for (String str : hashSet) {
@@ -109,35 +108,35 @@ public class SaveDataState extends BaseState {
     else
     {
       Toast.makeText(mController.getView(),"Sua" ,Toast.LENGTH_LONG).show();
-//      Week week_by_day = mDatabaseHelper.getWeek(timestart, timeend);
-//      ArrayList<DayOfWeek> DayOfWeeks = week_by_day.getArrayList();
-//      for(int i=0;i< DayOfWeeks.size();i++)
-//      {
-//      mDatabaseHelper.deleteDayOfWeek(DayOfWeeks.get(i).getId_DayOfWeek());
-//    }
-//
-//      for (String str : hashSet) {
-//        DayOfWeek dayOfWeek = new DayOfWeek(str);
-//        mDatabaseHelper.createDayOfWeek(week_by_day.getId_Week(), dayOfWeek);
-//      }
-////
-//      ArrayList<DayOfWeek> DayOf_Weeks = (ArrayList<DayOfWeek>) mDatabaseHelper.getAllDayOfWeek(week_by_day.getId_Week());
-//      for(int i =0;i< DayOfWeeks.size();i++)
-//      {
-//        Log.d("Day of week",DayOfWeeks.get(i).getName());
-//      }
-//      for (int i = 0; i < DayOf_Weeks.size(); i++)
-//        for (int j = 0; j < arrayList2.size(); j++) {
-//          if (DayOfWeeks.get(i).getName().equals(arrayList2.get(j).getDayOfWeek().getName())) {
-//            arrayList2.get(j).setDayOfWeek(DayOfWeeks.get(i));
-//            Log.d("day",arrayList2.get(j).getDayOfWeek().getName()+arrayList2.get(j).getLesson());
-//          }
-//        }
+      Week week_by_day = mDatabaseHelper.getWeek(timestart, timeend);
+      ArrayList<DayOfWeek> DayOfWeeks = week_by_day.getArrayList();
+      for(int i=0;i< DayOfWeeks.size();i++)
+      {
+      mDatabaseHelper.deleteDayOfWeek(DayOfWeeks.get(i).getId_DayOfWeek());
+    }
 
-//      for (int i = 0; i < arrayList2.size(); i++) {
-//        DayWithRegistedLesson dayWithRegistedLesson = arrayList2.get(i);
-//        mDatabaseHelper.createDayRegistedLesson(dayWithRegistedLesson);
-//      }
+      for (String str : hashSet) {
+        DayOfWeek dayOfWeek = new DayOfWeek(str);
+        mDatabaseHelper.createDayOfWeek(week_by_day.getId_Week(), dayOfWeek);
+      }
+//
+      ArrayList<DayOfWeek> DayOf_Weeks = (ArrayList<DayOfWeek>) mDatabaseHelper.getAllDayOfWeek(week_by_day.getId_Week());
+      for(int i =0;i< DayOf_Weeks.size();i++)
+      {
+        Log.d("Day of week",DayOf_Weeks.get(i).getName());
+      }
+      for (int i = 0; i < DayOf_Weeks.size(); i++)
+        for (int j = 0; j < arrayList2.size(); j++) {
+          if (DayOf_Weeks.get(i).getName().equals(arrayList2.get(j).getDayOfWeek().getName())) {
+            arrayList2.get(j).setDayOfWeek(DayOf_Weeks.get(i));
+            Log.d("day",arrayList2.get(j).getDayOfWeek().getName()+arrayList2.get(j).getLesson());
+          }
+        }
+
+      for (int i = 0; i < arrayList2.size(); i++) {
+        DayWithRegistedLesson dayWithRegistedLesson = arrayList2.get(i);
+        mDatabaseHelper.createDayRegistedLesson(dayWithRegistedLesson);
+      }
 
 
    }

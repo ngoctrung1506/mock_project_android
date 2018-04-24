@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import bu22.fga.mockproject_group2.entity.DayOfWeek;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
 
@@ -83,12 +84,23 @@ public class TimeTableModel
         this.mTimeTable = listTimeTableData;
         this.mListLessonName = listLessonName;
         this.finishedLoadData = finishedLoadData;
+
+
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
 
     public void setDataForEditLesson(int curentDrop, Lesson curLesson, int curentDrag, DayWithRegistedLesson lesson) {
-            this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(curLesson));
-            this.mTimeTable.set(curentDrag, lesson);
+//            this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(curLesson));
+//            this.mTimeTable.set(curentDrag, lesson);
+
+        int lessonPosition = (int) curentDrop / 7;
+        int day = (curentDrop % 7) + 1;
+
+        DayOfWeek dayOfWeek = new DayOfWeek("day"+day);
+
+//        Log.d("Day",dayOfWeek.getName());
+        this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(dayOfWeek,curLesson,lessonPosition));
+        this.mTimeTable.set(curentDrag, lesson);
 //        Log.d(TAG, "setDataForEditLesson: " + mTimeTable.get(curentDrop).getLesson().getName() + " " + mTimeTable.get(curentDrag).getLesson().getName());
             mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
@@ -103,7 +115,7 @@ public class TimeTableModel
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
 
-    public void setmListLessonName(ArrayList<Lesson> mListLessonName) {
+    public void setmListLessonName(List<Lesson> mListLessonName) {
         this.mListLessonName = mListLessonName;
     }
 }

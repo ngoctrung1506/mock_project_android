@@ -2,7 +2,6 @@ package bu22.fga.mockproject_group2.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.List;
 
 import bu22.fga.mockproject_group2.entity.Lesson;
@@ -19,7 +18,7 @@ public class ListLessonModel {
 
     private PropertyChangeSupport mPropertyChangeSupport;
 
-    private ArrayList<Lesson> mListLesson;
+    private List<Lesson> mListLesson;
 
     private static ListLessonModel mModel = null;
 
@@ -40,13 +39,13 @@ public class ListLessonModel {
         mPropertyChangeSupport.addPropertyChangeListener(listenner);
     }
 
-    public void setResultListData(ArrayList<Lesson> listLesson) {
+    public void setResultListData(List<Lesson> listLesson) {
         this.mListLesson = listLesson;
         this.mTimeTableModel.setmListLessonName(listLesson);
         mPropertyChangeSupport.firePropertyChange(EVENT_SAVE_DATA, null, null);
     }
 
-    public ArrayList<Lesson> getmListLesson() {
+    public List<Lesson> getmListLesson() {
         return mListLesson;
     }
 }
