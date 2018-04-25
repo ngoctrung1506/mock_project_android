@@ -29,11 +29,13 @@ public class TimeTableAdapter extends BaseAdapter {
     private MainController mController;
     private View mTypeView;
 
-    public TimeTableAdapter(ArrayList<DayWithRegistedLesson> mDatasource, MainController mController) {
+    public TimeTableAdapter(ArrayList<DayWithRegistedLesson> mDatasource,
+                            MainController mController) {
         this.mDatasource = mDatasource;
         this.mController = mController;
     }
-    public void setListData(ArrayList<DayWithRegistedLesson> mDatasource){
+
+    public void setListData(ArrayList<DayWithRegistedLesson> mDatasource) {
         this.mDatasource = mDatasource;
         notifyDataSetChanged();
     }
@@ -62,10 +64,11 @@ public class TimeTableAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         Context context = viewGroup.getContext();
         Lesson lesson = null;
-        if(getItem(i)!=null && getItem(i).getLesson() != null) {
-             lesson = getItem(i).getLesson();
+        if (getItem(i) != null && getItem(i).getLesson() != null) {
+            lesson = getItem(i).getLesson();
         }
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         TimeTableAdapter.ViewHolder vh = null;
         if (view == null) {
             vh = new ViewHolder();
@@ -83,8 +86,8 @@ public class TimeTableAdapter extends BaseAdapter {
         return view;
     }
 
-    private void addListener(final View view, final int i, TextView mTvName) {
-        if ( i > MAX_COLUMN && i % MAX_COLUMN != 0) {
+    private void addListener(View view, final int i, TextView mTvName) {
+        if (i > MAX_COLUMN && i % MAX_COLUMN != 0) {
             if (!mTvName.getText().toString().isEmpty()) {
                 view.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -104,24 +107,25 @@ public class TimeTableAdapter extends BaseAdapter {
     }
 
     private void onDragBegin(View view, int curentDrag) {
-        Message msg=new Message();
-        msg.what= Constant.DRAP_AND_DROP;
+        Message msg = new Message();
+        msg.what = Constant.DRAP_AND_DROP;
         msg.obj = Constant.EVENT_DRAP;
-        msg.arg2=curentDrag;
-        msg.sendingUid= Constant.TIME_TABLE;
+        msg.arg2 = curentDrag;
+        msg.sendingUid = Constant.TIME_TABLE;
         mController.sendMessage(msg);
     }
 
     private void initData(int i, TextView mTvName) {
         if (i > MAX_COLUMN && i % MAX_COLUMN != 0) {
-            if(getItem(i)!=null && getItem(i).getLesson() != null)
-            mTvName.setText(getItem(i).getLesson().getName());
+            if (getItem(i) != null && getItem(i).getLesson() != null)
+                mTvName.setText(getItem(i).getLesson().getName());
         } else return;
     }
 
     private void initRowHeader(int i, TextView mTvName) {
         if (i > 0 && i % MAX_COLUMN == 0) {
-            mTvName.getRootView().setBackgroundColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorHeaderCell));
+            mTvName.getRootView().setBackgroundColor(
+                    ContextCompat.getColor(mTvName.getContext(), R.color.colorHeaderCell));
             mTvName.setTextColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorWhite));
             mTvName.setText(ROW_HEADER_PREFIX);
         } else
@@ -131,7 +135,8 @@ public class TimeTableAdapter extends BaseAdapter {
 
     private void initColumnHeader(int i, TextView mTvName) {
         if (i > 0 && i < MAX_COLUMN) {
-            mTvName.getRootView().setBackgroundColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorHeaderCell));
+            mTvName.getRootView().setBackgroundColor(
+                    ContextCompat.getColor(mTvName.getContext(), R.color.colorHeaderCell));
             mTvName.setTextColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorWhite));
             mTvName.setText(COLUMN_HEADER_PREFIX + i);
         } else

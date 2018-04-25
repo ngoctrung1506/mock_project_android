@@ -460,7 +460,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // updating row
         return db.update(TABLE_DAYWITHLESSON, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(id)});
-    }
 
     public int updateDayRegistedLessonName(int lessonId) {
 
@@ -489,8 +488,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * getting all DayWithRegistedLesson ok
      */
-    public List<DayWithRegistedLesson> getALLDayWithRegistedLesson(long id) {
-        List<DayWithRegistedLesson> List = new ArrayList<DayWithRegistedLesson>();
+    public ArrayList<DayWithRegistedLesson> getALLDayWithRegistedLesson(long id) {
+        ArrayList<DayWithRegistedLesson> List = new ArrayList<DayWithRegistedLesson>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_DAYWITHLESSON + " WHERE "
                 + KEY_DAYWITHLESSON_ID_DAYOFWEED + " = " + id;

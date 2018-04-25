@@ -30,14 +30,15 @@ public class ListLessonAdapter extends BaseAdapter {
         this.mDatasource = lessons;
     }
 
-    public ListLessonAdapter(ArrayList<Lesson> mDatasource, MainController mController, OnSendLessonNameBackToMainScreen onSendName) {
+    public ListLessonAdapter(ArrayList<Lesson> mDatasource, MainController mController,
+                             OnSendLessonNameBackToMainScreen onSendName) {
         this.mOnSendName = onSendName;
         this.mDatasource = mDatasource;
         this.mController = mController;
     }
 
 
-    public void setListData(ArrayList<Lesson> mDatasource){
+    public void setListData(ArrayList<Lesson> mDatasource) {
         this.mDatasource = mDatasource;
         notifyDataSetChanged();
     }
@@ -68,7 +69,8 @@ public class ListLessonAdapter extends BaseAdapter {
 
         Context context = viewGroup.getContext();
         final Lesson lesson = getItem(i);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder vh = null;
         if (view == null) {
             vh = new ViewHolder();
@@ -80,11 +82,11 @@ public class ListLessonAdapter extends BaseAdapter {
             vh = (ViewHolder) view.getTag();
         }
         vh.mTvName.setText(lesson.getName());
-        addListener(view,i, lesson.getName());
+        addListener(view, i, lesson.getName());
         return view;
     }
 
-    private void addListener(final View view, final int i, final String lessonName) {
+    private void addListener(View view, final int i, final String lessonName) {
         if (!mIsEditable) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -113,11 +115,11 @@ public class ListLessonAdapter extends BaseAdapter {
     }
 
     private void onDragBegin(View view, int curentDrag) {
-        Message msg=new Message();
-        msg.what= Constant.DRAP_AND_DROP;
+        Message msg = new Message();
+        msg.what = Constant.DRAP_AND_DROP;
         msg.obj = Constant.EVENT_DRAP;
         msg.arg2 = curentDrag;
-        msg.sendingUid= Constant.LIST_LESSON;
+        msg.sendingUid = Constant.LIST_LESSON;
         mController.sendMessage(msg);
     }
 
@@ -131,7 +133,7 @@ public class ListLessonAdapter extends BaseAdapter {
         private TextView mTvName;
     }
 
-    public interface OnSendLessonNameBackToMainScreen{
+    public interface OnSendLessonNameBackToMainScreen {
         void onSendLessonName(String lessonName);
     }
 }

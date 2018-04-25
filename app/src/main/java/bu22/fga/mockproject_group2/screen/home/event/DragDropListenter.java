@@ -14,54 +14,56 @@ import bu22.fga.mockproject_group2.dialog.ConfirmDialog;
 
 public class DragDropListenter implements View.OnDragListener {
 
-    private MainController mController;
-    private int curentDrop;
 
-    public DragDropListenter(MainController mController, int curentDrop) {
-        this.mController = mController;
-        this.curentDrop = curentDrop;
-    }
+  private MainController mController;
+  private int curentDrop;
 
-    @Override
-    public boolean onDrag(View view, DragEvent dragEvent) {
-        View view1= (View) dragEvent.getLocalState();
-        switch (dragEvent.getAction()) {
-            case DragEvent.ACTION_DRAG_LOCATION:
-                view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorBlack));
-                break;
-            case DragEvent.ACTION_DRAG_EXITED:
-                view.setBackgroundColor(Color.WHITE);
-                break;
-            case DragEvent.ACTION_DRAG_ENDED:
-                break;
-            case DragEvent.ACTION_DROP:
-                int idDrag=view1.getId()-R.id.always;
-                if(idDrag>=49){
-                    onDropItemFromListLesson();
-                }
-                else {
-                    onDropItemFromTimeTable();
-                }
-                view.setBackgroundColor(Color.WHITE);
-                break;
-            default:
-                view.setBackgroundColor(Color.WHITE);
-                break;
+  public DragDropListenter(MainController mController, int curentDrop) {
+    this.mController = mController;
+    this.curentDrop = curentDrop;
+
+  }
+
+  @Override
+  public boolean onDrag(View view, DragEvent dragEvent) {
+    View view1 = (View) dragEvent.getLocalState();
+    switch (dragEvent.getAction()) {
+      case DragEvent.ACTION_DRAG_LOCATION:
+        view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorBlack));
+        break;
+      case DragEvent.ACTION_DRAG_EXITED:
+        view.setBackgroundColor(Color.WHITE);
+        break;
+      case DragEvent.ACTION_DRAG_ENDED:
+        break;
+      case DragEvent.ACTION_DROP:
+        int idDrag = view1.getId() - R.id.always;
+        if (idDrag >= 49) {
+          onDropItemFromListLesson();
+        } else {
+          onDropItemFromTimeTable();
         }
-        return true;
-    }
 
-    private void onDropItemFromTimeTable() {
-        Message msg = new Message();
-        msg.what = Constant.DRAP_AND_DROP;
-        msg.obj = Constant.EVENT_DROP;
-        msg.arg1 = Constant.EDIT_LESSON;
-        msg.arg2 = curentDrop;
-        mController.sendMessage(msg);
+      default:
+        view.setBackgroundColor(Color.WHITE);
+        break;
     }
+    return true;
+  }
 
-    private void onDropItemFromListLesson() {
-        new ConfirmDialog(mController.getView(), mController, curentDrop).show();
-    }
 
+  private void onDropItemFromTimeTable() {
+    Message msg = new Message();
+    msg.what = Constant.DRAP_AND_DROP;
+    msg.obj = Constant.EVENT_DROP;
+    msg.arg1 = Constant.EDIT_LESSON;
+    msg.arg2 = curentDrop;
+    mController.sendMessage(msg);
+  }
+
+  private void onDropItemFromListLesson() {
+    new ConfirmDialog(mController.getView(), mController, curentDrop).show();
+
+
+  }
 }

@@ -26,9 +26,6 @@ public class DayWithRegistedLesson {
         this.position = position;
     }
 
-    public DayWithRegistedLesson() {
-    }
-
     public DayWithRegistedLesson(Lesson lesson) {
         this.lesson = lesson;
     }
@@ -47,8 +44,7 @@ public class DayWithRegistedLesson {
         this.lesson = lesson;
     }
 
-    public DayWithRegistedLesson(String lessonName) {
-        this.lesson = new Lesson(lessonName);
+    public DayWithRegistedLesson() {
     }
 
     public int getId_DayWithRegistedLesson() {
