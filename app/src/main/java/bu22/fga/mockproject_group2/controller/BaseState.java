@@ -1,8 +1,7 @@
-package bu22.fga.mockproject_group2.screen.home.state;
+package bu22.fga.mockproject_group2.controller;
 
 import android.os.Message;
 
-import bu22.fga.mockproject_group2.controller.MainController;
 import bu22.fga.mockproject_group2.util.DatabaseHelper;
 import bu22.fga.mockproject_group2.util.Ultilites;
 

@@ -1,4 +1,4 @@
-package bu22.fga.mockproject_group2.screen.home.adapter;
+package bu22.fga.mockproject_group2.adapter;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -27,7 +27,6 @@ public class TimeTableAdapter extends BaseAdapter {
     public static final String COLUMN_HEADER_PREFIX = "Day";
     public static final String ROW_HEADER_PREFIX = "Lesson";
     private MainController mController;
-    private View mTypeView;
 
     public TimeTableAdapter(ArrayList<DayWithRegistedLesson> mDatasource, MainController mController) {
         this.mDatasource = mDatasource;
@@ -133,7 +132,7 @@ public class TimeTableAdapter extends BaseAdapter {
         if (i > 0 && i < MAX_COLUMN) {
             mTvName.getRootView().setBackgroundColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorHeaderCell));
             mTvName.setTextColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorWhite));
-            mTvName.setText(COLUMN_HEADER_PREFIX + i);
+            mTvName.setText(COLUMN_HEADER_PREFIX + (i+1));
         } else
             return;
     }

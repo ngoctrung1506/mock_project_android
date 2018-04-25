@@ -9,10 +9,6 @@ import bu22.fga.mockproject_group2.MainActivity;
 import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.model.ListLessonModel;
 import bu22.fga.mockproject_group2.model.TimeTableModel;
-import bu22.fga.mockproject_group2.screen.home.state.BaseState;
-import bu22.fga.mockproject_group2.screen.home.state.DragAndDropState;
-import bu22.fga.mockproject_group2.screen.home.state.LoadDataState;
-import bu22.fga.mockproject_group2.screen.home.state.SaveDataState;
 
 
 public class MainController {
