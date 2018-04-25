@@ -1,4 +1,4 @@
-package bu22.fga.mockproject_group2.screen.home.adapter;
+package bu22.fga.mockproject_group2.adapter;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -24,21 +24,22 @@ public class ListLessonAdapter extends BaseAdapter {
     private MainController mController;
     private boolean mIsEditable;
     private OnSendLessonNameBackToMainScreen mOnSendName;
-    private View mTypeView;
 
 
     public ListLessonAdapter(ArrayList<Lesson> lessons) {
         this.mDatasource = lessons;
     }
 
-    public ListLessonAdapter(ArrayList<Lesson> mDatasource, MainController mController, OnSendLessonNameBackToMainScreen onSendName) {
+    public ListLessonAdapter(List<Lesson> mDatasource, MainController mController, OnSendLessonNameBackToMainScreen onSendName) {
         this.mOnSendName = onSendName;
         this.mDatasource = mDatasource;
         this.mController = mController;
     }
 
+    public void setListData(ArrayList<Lesson> mDatasource) {
+        this.mDatasource = mDatasource;}
 
-    public void setListData(ArrayList<Lesson> mDatasource){
+    public void setListData(List<Lesson> mDatasource) {
         this.mDatasource = mDatasource;
         notifyDataSetChanged();
     }
@@ -85,7 +86,7 @@ public class ListLessonAdapter extends BaseAdapter {
         return view;
     }
 
-    private void addListener(final View view, final int i, final String lessonName) {
+    private void addListener(View view, final int i, final String lessonName) {
         if (!mIsEditable) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 @Override

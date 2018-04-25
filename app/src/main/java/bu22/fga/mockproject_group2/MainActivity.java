@@ -26,6 +26,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import bu22.fga.mockproject_group2.adapter.ListLessonAdapter;
+import bu22.fga.mockproject_group2.adapter.TimeTableAdapter;
 import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.controller.MainController;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
@@ -33,8 +35,7 @@ import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.entity.Week;
 import bu22.fga.mockproject_group2.model.TimeTableModel;
 import bu22.fga.mockproject_group2.screen.editlesson.EditLessonActivity;
-import bu22.fga.mockproject_group2.screen.home.adapter.ListLessonAdapter;
-import bu22.fga.mockproject_group2.screen.home.adapter.TimeTableAdapter;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -161,6 +162,15 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
                 mController.sendMessage(msg);
             }
         });
+
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Message msg = new Message();
+                msg.what = Constant.LOAD_DATA;
+                mController.sendMessage(msg);
+            }
+        });
     }
 
     private void ClickCalendar() {
@@ -265,9 +275,11 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
     private void handleLoadData() {
         if (mModel.isFinishedLoadData()) {
             mTimeTableDatasource.clear();
+
             mTimeTableAdapter.setListData(mModel.getTimeTable());
 //            mTimeTableDatasource.addAll(mModel.getTimeTable());
 //            mTimeTableAdapter.notifyDataSetChanged();
+
             mLessons.clear();
             mLessons.addAll(mModel.getListLessonName());
             mListLessonAdapter.notifyDataSetChanged();
