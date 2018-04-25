@@ -1,6 +1,7 @@
 package bu22.fga.mockproject_group2.screen.home.state;
 
 import android.os.Message;
+import android.util.Log;
 
 import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.controller.MainController;
@@ -36,6 +37,8 @@ public class SaveDataState extends BaseState {
 
     int lessonId = mDatabaseHelper.getLessonIdByName(oldName);
     mDatabaseHelper.updateLesson(new Lesson(newName), (int) lessonId);
+    int result = mDatabaseHelper.updateDayRegistedLessonName(lessonId);
+    Log.d("result", "onUpdateLesson: " + result);
 
     ((ListLessonModel)mController.getModel()).setResultListData(mDatabaseHelper.getAllLessons());
   }

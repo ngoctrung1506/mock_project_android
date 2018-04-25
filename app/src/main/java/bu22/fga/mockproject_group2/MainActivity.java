@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         initMVC();
         initView();
         addListener();
-        //    showLesson();
+    //    showLesson();
 
 
     }
@@ -99,8 +99,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent != null && intent.getExtras() != null) {
-            ArrayList<Lesson> lessons = (ArrayList<Lesson>) intent.getExtras()
-                    .getSerializable("listLesson");
+            ArrayList<Lesson> lessons = (ArrayList<Lesson>) intent.getExtras().getSerializable("listLesson");
             if (lessons != null) {
                 mListLessonAdapter.setListLesson(lessons);
                 Log.e("in", "getDataFromEditScreen: ");
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         mTimeTableAdapter = new TimeTableAdapter(mTimeTableDatasource, mController);
         mGrvTimeTable.setAdapter(mTimeTableAdapter);
 
-//        ArrayList<Lesson> mList = mDatabase.getAllLessons();
+
         mListLessonAdapter = new ListLessonAdapter(mListLessons, mController, this);
         mListLessonAdapter.setEditable(false);
         mGrvListLesson.setAdapter(mListLessonAdapter);
@@ -189,9 +188,9 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
                 addLesson();
             }
         });
-        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+        mBtnCancel.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
                 removeChange();
             }
         });
@@ -283,7 +282,8 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     }
 
     private void addLesson() {
-        final AlertDialog.Builder alertDialogBuilder =
+        final
+        AlertDialog.Builder alertDialogBuilder =
                 new AlertDialog.Builder(this);
         View mView = this.getLayoutInflater()
                 .inflate(R.layout.custom_dialog_add_lesson, null);
@@ -305,24 +305,17 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
                     Toast.makeText(MainActivity.this, "Lesson cannot be empty",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    mLesson = new Lesson(editTextAddLesson.getText().toString());
-                    int size = mDatabase.getAllLessons().size();
-                    for (int i = 0; i <size ; i++) {
-                        if (mLesson.getName().equals(mDatabase.getAllLessons().get(i).getName())){
-                            Toast.makeText(MainActivity.this, "Lesson exist !!", Toast.LENGTH_SHORT).show();
-                        }else {
-                            mDatabase.addLesson(mLesson);
-                        }
-                    }
-                    mListLessonAdapter.setListData(mDatabase.getAllLessons());
-                    mListLessonAdapter.notifyDataSetChanged();
 
+                    mLesson = new Lesson(editTextAddLesson.getText().toString());
+                    mDatabase.addLesson(mLesson);
+                    mListLessons.add(mLesson);
+                    mListLessonAdapter.notifyDataSetChanged();
+//                  mListLessonAdapter.setListData(mDatabase.getAllLessons());
+//                  mListLessonAdapter.notifyDataSetChanged();
 
                     Log.e("Add Lesson", "" + mDatabase.getAllLessons());
                     for (int i = 0; i < mDatabase.getAllLessons().size(); i++) {
-                        Log.e("Add Lesson " + i,
-                                "" + mDatabase.getAllLessons().get(i).getName() + "+" + mDatabase
-                                        .getAllLessons().get(i).getId_lesson());
+                        Log.e("Add Lesson " + i, "" + mDatabase.getAllLessons().get(i).getName());
                     }
                     alertDialog.dismiss();
 
@@ -345,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         mTimeTableDatasource.addAll(mModel.getTimeTable());
         mGrvTimeTable.setAdapter(mTimeTableAdapter);
         mTimeTableAdapter.notifyDataSetChanged();
-        Log.e("Cancel", "Cancellll");
+        Log.e("Cancel","Cancellll");
 
     }
 
@@ -353,13 +346,13 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
         mLessons.clear();
         ArrayList<Lesson> listLessons = new ArrayList<>();
         mLessons = mDatabase.getAllLessons();
-        for (int i = 0; i < mLessons.size(); i++) {
-            listLessons.add(mLessons.get(i));
-        }
+            for (int i = 0; i < mLessons.size(); i++) {
+                listLessons.add(mLessons.get(i));
+            }
 
-        for (int i = listLessons.size(); i < 15; i++) {
-            listLessons.add(new Lesson(""));
-        }
+            for (int i = listLessons.size(); i < 15; i++) {
+                listLessons.add(new Lesson(""));
+            }
         mListLessonAdapter.setListData(listLessons);
 
         mGrvListLesson.setAdapter(mListLessonAdapter);
@@ -367,8 +360,4 @@ public class MainActivity extends AppCompatActivity implements OnSendLessonNameB
     }
 
 
-    public void loadData() {
-        mListLessonAdapter.setListLesson(mDatabase.getAllLessons());
-        Log.d("NEW  SIZE", "" + mDatabase.getAllLessons().size());
-    }
 }

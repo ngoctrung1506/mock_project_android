@@ -34,7 +34,6 @@ public class DayWithRegistedLesson {
     }
 
     public DayWithRegistedLesson(DayOfWeek dayOfWeek, Lesson lesson, int position) {
-
         this.dayOfWeek = dayOfWeek;
         this.lesson = lesson;
         this.position = position;
