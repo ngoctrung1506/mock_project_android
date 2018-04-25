@@ -19,12 +19,12 @@ import bu22.fga.mockproject_group2.controller.MainController;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.screen.home.event.DragDropListenter;
+import bu22.fga.mockproject_group2.util.GridViewUtil;
 
 public class TimeTableAdapter extends BaseAdapter {
 
     private ArrayList<DayWithRegistedLesson> mDatasource;
     public static final int MAX_COLUMN = 7;
-    public static final String COLUMN_HEADER_PREFIX = "Day";
     public static final String ROW_HEADER_PREFIX = "Lesson";
     private MainController mController;
 
@@ -72,6 +72,7 @@ public class TimeTableAdapter extends BaseAdapter {
             vh.mTvName = view.findViewById(R.id.it_tv_lesson_name);
             view.setTag(vh);
             view.setId(R.id.always+i);
+            view.setTag(R.id.TAG_FROM, Constant.TAG_OF_TIME_TABLE_ITEM);
         } else {
             vh = (ViewHolder) view.getTag();
         }
@@ -122,7 +123,7 @@ public class TimeTableAdapter extends BaseAdapter {
         if (i > 0 && i % MAX_COLUMN == 0) {
             mTvName.getRootView().setBackgroundColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorHeaderCell));
             mTvName.setTextColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorWhite));
-            mTvName.setText(ROW_HEADER_PREFIX);
+            mTvName.setText(ROW_HEADER_PREFIX + " " + (i/MAX_COLUMN));
         } else
             return;
 
@@ -132,7 +133,7 @@ public class TimeTableAdapter extends BaseAdapter {
         if (i > 0 && i < MAX_COLUMN) {
             mTvName.getRootView().setBackgroundColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorHeaderCell));
             mTvName.setTextColor(ContextCompat.getColor(mTvName.getContext(), R.color.colorWhite));
-            mTvName.setText(COLUMN_HEADER_PREFIX + (i+1));
+            mTvName.setText(GridViewUtil.getDayOfWeekByPosition(i));
         } else
             return;
     }

@@ -3,6 +3,7 @@ package bu22.fga.mockproject_group2.adapter;
 import android.content.ClipData;
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import bu22.fga.mockproject_group2.R;
@@ -20,24 +20,17 @@ import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.screen.home.event.DragDropListenter;
 
 public class ListLessonAdapter extends BaseAdapter {
+
     private List<Lesson> mDatasource;
     private MainController mController;
     private boolean mIsEditable;
     private OnSendLessonNameBackToMainScreen mOnSendName;
-
-
-    public ListLessonAdapter(ArrayList<Lesson> lessons) {
-        this.mDatasource = lessons;
-    }
 
     public ListLessonAdapter(List<Lesson> mDatasource, MainController mController, OnSendLessonNameBackToMainScreen onSendName) {
         this.mOnSendName = onSendName;
         this.mDatasource = mDatasource;
         this.mController = mController;
     }
-
-    public void setListData(ArrayList<Lesson> mDatasource) {
-        this.mDatasource = mDatasource;}
 
     public void setListData(List<Lesson> mDatasource) {
         this.mDatasource = mDatasource;
@@ -47,7 +40,7 @@ public class ListLessonAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mDatasource.size();
+        return Constant.MAX_LIST_LESSON_SIZE;
     }
 
     @Override
@@ -60,33 +53,39 @@ public class ListLessonAdapter extends BaseAdapter {
         return i;
     }
 
-    public void setEditable(boolean editable) {
-        mIsEditable = editable;
-        notifyDataSetChanged();
-    }
-
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
 
-        Context context = viewGroup.getContext();
-        final Lesson lesson = getItem(i);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewHolder vh = null;
-        if (view == null) {
-            vh = new ViewHolder();
-            view = inflater.inflate(R.layout.item_row, viewGroup, false);
-            vh.mTvName = view.findViewById(R.id.it_tv_lesson_name);
-            view.setTag(vh);
-            view.setId(R.id.always + i+49);
-        } else {
-            vh = (ViewHolder) view.getTag();
-        }
-        vh.mTvName.setText(lesson.getName());
-        addListener(view,i, lesson.getName());
+           Context context = viewGroup.getContext();
+           Lesson lesson = null;
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            ViewHolder vh;
+            if (view == null) {
+                vh = new ViewHolder();
+                view = inflater.inflate(R.layout.item_row, viewGroup, false);
+                vh.mTvName = view.findViewById(R.id.it_tv_lesson_name);
+                view.setTag(vh);
+                Log.d("edit", "addListener: " + mIsEditable);
+                if(i < mDatasource.size()) {
+                    lesson = getItem(i);
+                    view.setId(R.id.always + i + 49);
+                    vh.mTvName.setText(lesson.getName());
+                    addListener(view.getRootView(), i, lesson.getName());
+                }
+            } else {
+                vh = (ViewHolder) view.getTag();
+            }
+
         return view;
     }
 
+    public void setEditable(boolean editable) {
+        mIsEditable = editable;
+//        this.notifyDataSetChanged();
+    }
+
     private void addListener(View view, final int i, final String lessonName) {
+        Log.d("edit", "addListener: " + mIsEditable);
         if (!mIsEditable) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 @Override

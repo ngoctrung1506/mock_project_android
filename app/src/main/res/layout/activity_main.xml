@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:background="@color/colorLightOrange"
     xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingLeft="10dp"
-              android:paddingRight="10dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/size_5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal">>
 
-        <LinearLayout
-            android:layout_weight="2.5"
+        <RelativeLayout
+            android:padding="@dimen/size_5dp"
+            android:id="@+id/main_rel_timetable"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_weight="2.5">
 
             <RelativeLayout
+                android:id="@+id/main_top_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -28,167 +30,179 @@
 
 
                 <TextView
-                    android:layout_marginLeft="@dimen/size_20dp"
                     android:id="@+id/main_txt_table"
-                    android:textSize="@dimen/size_23sp"
-                    android:text="TimeTable"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_20dp"
+                    android:text="TimeTable"
+                    android:textSize="@dimen/size_23sp"/>
 
                 <ImageView
-                    android:layout_marginTop="@dimen/size_2dp"
-                    android:layout_below="@id/main_txt_table"
                     android:id="@+id/main_btn_previous"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
-                    android:src="@mipmap/ic_back" />
+                    android:layout_below="@id/main_txt_table"
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:src="@mipmap/ic_back"/>
 
                 <android.support.v7.widget.CardView
-                    android:layout_below="@id/main_txt_table"
                     android:id="@+id/cv_period"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/main_txt_table"
                     android:layout_toRightOf="@id/main_btn_previous"
                     android:background="#fff">
 
                     <TextView
-                        android:layout_marginTop="@dimen/size_2dp"
                         android:id="@+id/main_txt_time_period"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/size_2dp"
                         android:padding="5dp"
-                        android:text="9-15/4/2018" />
+                        android:text="9-15/4/2018"/>
                 </android.support.v7.widget.CardView>
 
                 <ImageView
-                    android:layout_marginTop="@dimen/size_2dp"
-                    android:layout_below="@id/main_txt_table"
                     android:id="@+id/main_btn_next"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_below="@id/main_txt_table"
+                    android:layout_marginTop="@dimen/size_2dp"
                     android:layout_toRightOf="@id/cv_period"
-                    android:src="@mipmap/ic_next" />
+                    android:src="@mipmap/ic_next"/>
 
                 <ImageView
-                    android:layout_centerVertical="true"
                     android:id="@+id/main_img_recycle_bin"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
-                    app:srcCompat="@mipmap/ic_trash" />
+                    app:srcCompat="@mipmap/ic_trash"/>
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/main_bottom_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/main_top_view">
 
                 <GridView
                     android:id="@+id/main_grv_time_table"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:numColumns="7" />
+                    android:numColumns="7"/>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/main_fr_dim_view"
-                    android:visibility="gone"
-                    android:layout_height="210dp" android:background="#000" android:alpha="0.5"/>
             </RelativeLayout>
 
-        </LinearLayout>
+            <FrameLayout
+                android:id="@+id/main_fr_dim_view"
+                android:visibility="gone"
+                android:background="@color/colorDim"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
 
         <LinearLayout
-            android:layout_gravity="bottom|end"
-            android:layout_weight="1"
+            android:background="@color/colorLightOrange"
+            android:id="@+id/main_lil_list_lesson"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/size_23dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#fff"
+                android:id="@+id/main_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:cardCornerRadius="10dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:background="@color/colorLightOrange"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:background="#7786f5"
                         android:gravity="center"
-                        android:text="List lesson name"
-                        android:textColor="#fff"
-                        android:textSize="14dp" />
+                        android:text="@string/txt_list_lesson_name"
+                        android:textColor="@color/colorHeaderCell"
+                        android:textSize="@dimen/size_15sp"/>
 
                     <GridView
                         android:id="@+id/main_grv_list_lesson"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#747373"
-                        android:numColumns="3" />
+                        android:numColumns="3"/>
 
                     <Button
-                        android:textAllCaps="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_margin="5dp"
-                        android:background="#7786f5"
                         android:id="@+id/main_btn_add_lesson"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_30dp"
+                        android:layout_margin="@dimen/size_5dp"
+                        android:background="@color/colorHeaderCell"
                         android:text="@string/add_lesson_name"
+                        android:textAllCaps="false"
                         android:textColor="#fff"
-                        android:textSize="12dp" />
+                        android:textSize="@dimen/size_12sp"/>
 
                     <Button
-                        android:textAllCaps="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_margin="5dp"
-                        android:background="#7786f5"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:id="@+id/main_btn_edit_lesson"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_30dp"
+                        android:layout_marginBottom="@dimen/size_5dp"
+                        android:background="@color/colorHeaderCell"
                         android:text="@string/edit_lesson_name"
+                        android:textAllCaps="false"
                         android:textColor="#fff"
-                        android:textSize="12dp" />
+                        android:textSize="@dimen/size_12sp"/>
 
                     <LinearLayout
+                        android:gravity="center"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingBottom="5dp"
                         android:paddingRight="5dp"
                         android:weightSum="100">
 
                         <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                            android:id="@+id/main_btn_ok"
+                            android:layout_width="@dimen/size_30dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="35"
-                            android:background="#7786f5"
+                            android:background="@color/colorHeaderCell"
                             android:text="@string/ok"
-                            android:id="@+id/main_btn_ok"
+                            android:textAllCaps="false"
                             android:textColor="#fff"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"/>
 
                         <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                            android:id="@+id/main_btn_cancel"
+                            android:layout_width="@dimen/size_30dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
                             android:layout_weight="35"
-                            android:background="#7786f5"
+                            android:background="@color/colorHeaderCell"
                             android:text="@string/cancel"
-                            android:id="@+id/main_btn_cancel"
+                            android:textAllCaps="false"
                             android:textColor="#fff"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"/>
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>

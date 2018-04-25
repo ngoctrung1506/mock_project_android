@@ -144,11 +144,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     if (c != null)
       c.moveToFirst();
-
     Lesson td = new Lesson();
-    td.setId_lesson(c.getInt(c.getColumnIndex(KEY_LESSON_ID)));
-    td.setName((c.getString(c.getColumnIndex(KEY_NAME_LESSON))));
-
+    if(c.getCount() > 0) {
+     td.setId_lesson(c.getInt(c.getColumnIndex(KEY_LESSON_ID)));
+     td.setName((c.getString(c.getColumnIndex(KEY_NAME_LESSON))));
+   }
     return td;
   }
 
@@ -516,14 +516,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     Cursor c = db.rawQuery(selectQuery, null);
 
     // looping through all rows and adding to list
-    if (c.moveToFirst()) {
+    if (c.moveToFirst() && c.getCount() > 0) {
       do {
 
         DayWithRegistedLesson dayWithRegistedLesson = new DayWithRegistedLesson();
         dayWithRegistedLesson.setId_DayWithRegistedLesson(c.getInt((c.getColumnIndex(KEY_ID))));
         dayWithRegistedLesson.setLesson(this.getLesson(c.getInt((c.getColumnIndex(KEY_DAYWITHLESSON_ID_LESSON)))));
         dayWithRegistedLesson.setDayOfWeek(this.getDayOfWeek(c.getInt((c.getColumnIndex(KEY_DAYWITHLESSON_ID_DAYOFWEED)))));
-        ;
         dayWithRegistedLesson.setPosition(c.getInt((c.getColumnIndex(KEY_DAYWITHLESSON_POSITION))));
 
         // adding to todo list
@@ -589,6 +588,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = this.getReadableDatabase();
     if (db != null && db.isOpen())
       db.close();
+  }
+
+  //delete lesson in ListLesson
+  public void delete(Lesson lesson) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    db.delete(TABLE_LESSON, KEY_LESSON_ID + " = ?",
+        new String[]{String.valueOf(lesson.getId_lesson())});
+    db.close();
+  }
+
+  //add new Lesson
+  public void addLesson(Lesson lesson) {
+    SQLiteDatabase db = this.getWritableDatabase();
+
+    ContentValues values = new ContentValues();
+    values.put(KEY_NAME_LESSON, lesson.getName());
+    // insert row
+    db.insert(TABLE_LESSON, null, values);
+
   }
 
 }

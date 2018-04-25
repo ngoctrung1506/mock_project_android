@@ -76,9 +76,7 @@ public class SaveDataState extends BaseState {
     int week_time = mDatabaseHelper.getCoutWeek(timestart,timeend);
 
     if(week_time == 0) {
-      Toast.makeText(mController.getView(), "Khoi tao", Toast.LENGTH_LONG).show();
       mDatabaseHelper.createweek(week);
-      Toast.makeText(mController.getView(), "Khoi tao" + mDatabaseHelper.getCoutWeek(timestart,timeend), Toast.LENGTH_LONG).show();
       Week week_by_day = mDatabaseHelper.getWeek(timestart, timeend);
 
       for (String str : hashSet) {
@@ -106,7 +104,7 @@ public class SaveDataState extends BaseState {
     }
     else
     {
-      Toast.makeText(mController.getView(),"Sua" ,Toast.LENGTH_LONG).show();
+      Toast.makeText(mController.getView(),"Save successfully !" ,Toast.LENGTH_LONG).show();
       Week week_by_day = mDatabaseHelper.getWeek(timestart, timeend);
       ArrayList<DayOfWeek> DayOfWeeks = week_by_day.getArrayList();
       for(int i=0;i< DayOfWeeks.size();i++)

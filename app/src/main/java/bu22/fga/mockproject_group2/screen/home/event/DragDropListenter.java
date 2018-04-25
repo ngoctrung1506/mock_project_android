@@ -25,6 +25,8 @@ public class DragDropListenter implements View.OnDragListener {
     @Override
     public boolean onDrag(View view, DragEvent dragEvent) {
         View view1= (View) dragEvent.getLocalState();
+        int idDrag = view1.getId()-R.id.always;
+        int dropViewId = view.getId()-R.id.always;
         switch (dragEvent.getAction()) {
             case DragEvent.ACTION_DRAG_LOCATION:
                 view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorBlack));
@@ -32,11 +34,9 @@ public class DragDropListenter implements View.OnDragListener {
             case DragEvent.ACTION_DRAG_EXITED:
                 view.setBackgroundColor(Color.WHITE);
                 break;
-            case DragEvent.ACTION_DRAG_ENDED:
-                break;
+
             case DragEvent.ACTION_DROP:
-                int idDrag=view1.getId()-R.id.always;
-                if(idDrag>=49){
+                if(idDrag>=49 && dropViewId < 49){
                     onDropItemFromListLesson();
                 }
                 else {

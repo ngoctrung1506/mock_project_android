@@ -7,4 +7,14 @@
     <dimen name="size_5dp">5dp</dimen>
     <dimen name="size_25sp">25sp</dimen>
     <dimen name="size_1dp">1dp</dimen>
+    <dimen name="size_0.5dp">0.5dp</dimen>
+    <dimen name="size_12sp">12sp</dimen>
+    <dimen name="size_11sp">11sp</dimen>
+    <dimen name="size_14sp">14sp</dimen>
+    <dimen name="size_30dp">30dp</dimen>
+    <dimen name="size_40dp">40dp</dimen>
+    <dimen name="size_25dp">25dp</dimen>
+    <dimen name="size_23dp">23dp</dimen>
+    <dimen name="size_18sp">18sp</dimen>
+    <dimen name="size_15sp">15sp</dimen>
 </resources>

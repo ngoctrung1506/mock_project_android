@@ -14,17 +14,14 @@ public class Constant {
 
   public static final int DELETE_LESSON = 1;
   public static final int EDIT_LESSON = 2;
-  private static final int MAX_SIZE_LIST_LESSON = 15;
   public static final int LIST_LESSON = 1 ;
   public static final int TIME_TABLE = 2 ;
   public static final String KEY_LESSON_NAME = "lesson name";
 
-  public static final int TYPE_TIME_TABLE = 1;
-  public static final int TYPE_LIST_LESSON = 2;
   public static final int TYPE_FROM = 1;
   public static final int TYPE_TO = 2;
 
   public static final int TAG_OF_TIME_TABLE_ITEM = 3;
   public static final int TAG_OF_LIST_LESSON_ITEM = 2;
-  public static final int TAG_OF = 1;
+  public static int MAX_LIST_LESSON_SIZE = 15;
 }

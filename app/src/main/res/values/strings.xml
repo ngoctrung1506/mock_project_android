@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MockProject2</string>
-    <string name="edit_lesson_name">Edit Lesson\'s Name</string>
+    <string name="edit_lesson_name">Edit lesson name</string>
     <string name="cancel_edit">Cancel Edit</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
@@ -9,8 +9,8 @@
     <string name="text_sign_up_period">Đăng kí chu kì</string>
     <string name="text_from">From</string>
     <string name="text_to">To</string>
-    <item name="TAG_FROM_TABLE" type="id"/>
-    <item name="TAG_FROM_LIST_LESSON" type="id"/>
+    <item name="TAG_FROM" type="id"/>
     <string name="enter_lesson_name">Enter lesson name</string>
     <string name="Add">Add</string>
+    <string name="txt_list_lesson_name">List lesson name</string>
 </resources>

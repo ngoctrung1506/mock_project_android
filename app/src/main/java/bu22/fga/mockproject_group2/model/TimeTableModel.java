@@ -19,6 +19,8 @@ public class TimeTableModel
 
     public static final String EVENT_LOAD_DATA = "EVENT_LOAD_DATA";
 
+    public static final String EVENT_LOAD_DATA_AFTER_DELETE = "EVENT_LOAD_DATA_AFTER_DELETE";
+
     private PropertyChangeSupport mPropertyChangeSupport;
 
     private static TimeTableModel mModel = null;
@@ -87,19 +89,17 @@ public class TimeTableModel
         this.mListLessonName = listLessonName;
         this.finishedLoadData = finishedLoadData;
 
-
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
 
     public void setDataForEditLesson(int curentDrop, Lesson curLesson, int curentDrag, DayWithRegistedLesson lesson) {
-      int lessonPosition = (int) curentDrop / 7;
-      int day = (curentDrop % 7) + 1;
+        int lessonPosition = (int) curentDrop / 7;
+        int day = (curentDrop % 7) + 1;
 
-      DayOfWeek dayOfWeek = new DayOfWeek("day"+day);
+        DayOfWeek dayOfWeek = new DayOfWeek("day"+day);
 
-      Log.d("Day",dayOfWeek.getName());
-
-        this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(curLesson));
+        Log.d("Day",dayOfWeek.getName());
+        this.mTimeTable.set(curentDrop, new DayWithRegistedLesson(dayOfWeek,curLesson,lessonPosition));
         this.mTimeTable.set(curentDrag, lesson);
 //        Log.d(TAG, "setDataForEditLesson: " + mTimeTable.get(curentDrop).getLesson().getName() + " " + mTimeTable.get(curentDrag).getLesson().getName());
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
@@ -117,5 +117,10 @@ public class TimeTableModel
 
     public void setmListLessonName(List<Lesson> mListLessonName) {
         this.mListLessonName = mListLessonName;
+    }
+
+    public void setResultListData(List<Lesson> allLessons) {
+        this.mListLessonName = allLessons;
+        mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA_AFTER_DELETE, null, null);
     }
 }

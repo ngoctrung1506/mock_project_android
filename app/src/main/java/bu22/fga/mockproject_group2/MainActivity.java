@@ -6,17 +6,23 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -35,6 +41,7 @@ import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.entity.Week;
 import bu22.fga.mockproject_group2.model.TimeTableModel;
 import bu22.fga.mockproject_group2.screen.editlesson.EditLessonActivity;
+import bu22.fga.mockproject_group2.util.DatabaseHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -67,19 +74,38 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
     @BindView(R.id.main_btn_cancel)
     Button mBtnCancel;
 
-    @BindView(R.id.main_fr_dim_view)
-    FrameLayout mFrDimView;
-
     @BindView(R.id.main_img_recycle_bin)
     ImageView mImgRecycleBin;
+
+    @BindView(R.id.main_rel_timetable)
+    RelativeLayout mRelTimeTable;
+
+    @BindView(R.id.main_top_view)
+    RelativeLayout mTopView;
+
+    @BindView(R.id.main_bottom_view)
+    RelativeLayout mBottomView;
+
+    @BindView(R.id.main_lil_list_lesson)
+    LinearLayout mLilListLesson;
+
+    @BindView(R.id.main_fr_dim_view)
+    FrameLayout mFrmDimView;
+
+    @BindView(R.id.main_card_view)
+    CardView mCardView;
 
     private boolean mIsEditting = false;
     private ArrayList<Lesson> mLessons = new ArrayList<>();
     private ArrayList<DayWithRegistedLesson> mTimeTableDatasource = new ArrayList<>();
     private TimeTableAdapter mTimeTableAdapter;
     private ListLessonAdapter mListLessonAdapter;
+
     private TimeTableModel mModel;
     private MainController mController;
+    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+    private Lesson mLesson;
+    private ArrayList<Lesson> mListLessons = new ArrayList<>();
 
 
     Calendar mCalendar;
@@ -87,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
     private  String daytimestrat= "";
     private  String daytimeend= "";
     private Week newWeek;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +185,15 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
                 Message msg = new Message();
                 msg.what = Constant.SAVE_DATA;
                 msg.arg1=Constant.TIME_TABLE;
+                mController.sendMessage(msg);
+            }
+        });
+
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Message msg = new Message();
+                msg.what = Constant.LOAD_DATA;
                 mController.sendMessage(msg);
             }
         });
@@ -257,19 +293,30 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
             case TimeTableModel.EVENT_LOAD_DATA:
                 handleLoadData();
                 break;
+            case TimeTableModel.EVENT_LOAD_DATA_AFTER_DELETE:
+                handleLoadDataAfterDelete();
+                break;
             default:
                 break;
+        }
+    }
+
+    private void handleLoadDataAfterDelete() {
+        if (mModel.isFinishedLoadData()) {
+            Message msg = new Message();
+            msg.what = Constant.LOAD_DATA;
+            mController.sendMessage(msg);
         }
     }
 
     private void handleLoadData() {
         if (mModel.isFinishedLoadData()) {
             mTimeTableDatasource.clear();
-            mTimeTableDatasource.addAll(mModel.getTimeTable());
-            mTimeTableAdapter.notifyDataSetChanged();
+
+            mTimeTableAdapter.setListData(mModel.getTimeTable());
+
             mLessons.clear();
-            mLessons.addAll(mModel.getListLessonName());
-            mListLessonAdapter.notifyDataSetChanged();
+            mListLessonAdapter.setListLesson(mModel.getListLessonName());
         }
     }
 
@@ -284,7 +331,76 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
         mController.sendMessage(msg);
     }
 
+    private void addLesson() {
+        final AlertDialog.Builder alertDialogBuilder =
+            new AlertDialog.Builder(this);
+        View mView = this.getLayoutInflater()
+            .inflate(R.layout.custom_dialog_add_lesson, null);
+        final EditText editTextAddLesson = mView.findViewById(R.id.edit_addLessonName);
+        Button btnAdd = mView.findViewById(R.id.btnAdd);
+        Button btnCancel = mView.findViewById(R.id.btnCancel);
+
+        alertDialogBuilder.setView(mView);
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int match = 0;
+                String lessonName = editTextAddLesson.getText().toString().trim();
+                Log.d("name", "onClick: " + lessonName);
+                if (lessonName.length() > 10 || lessonName.equals("")) {
+                    Toast.makeText(MainActivity.this, "Check name of lessonn !",
+                        Toast.LENGTH_SHORT).show();
+                } else {
+                    int size = mDatabaseHelper.getAllLessons().size();
+
+                    String name = null;
+                    List<Lesson> listLesson = mDatabaseHelper.getAllLessons();
+
+                    for(int i = 0; i< size;i++){
+                        if(listLesson.get(i).getName().equals(lessonName)){
+                            match = 1;
+                            break;
+                        }
+                    }
+
+                    if(match == 0 ){
+                        mLesson = new Lesson(editTextAddLesson.getText().toString().trim());
+                        mDatabaseHelper.addLesson(mLesson);
+                        mListLessonAdapter.setListData(mDatabaseHelper.getAllLessons());
+                        mModel.setmListLessonName(mDatabaseHelper.getAllLessons());
+                        Toast.makeText(MainActivity.this, "Add succesfully", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "Duplicate lesson ! Please insert new one ", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Log.e("Add Lesson", "" + mDatabaseHelper.getAllLessons());
+                    alertDialog.dismiss();
+
+                }
+            }
+
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+    }
+
+
     private void addListener() {
+        mBtnAddLesson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addLesson();
+            }
+        });
         mBtnEditLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -343,14 +459,28 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
     }
 
     private void dimView() {
+        mLilListLesson.setBackgroundColor(ContextCompat.getColor(this, R.color.colorDim));
+        mCardView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorNewDim));
+        mFrmDimView.setVisibility(View.VISIBLE);
         mListLessonAdapter.setEditable(true);
-        mFrDimView.setVisibility(View.VISIBLE);
         mBtnEditLesson.setText(getResources().getText(R.string.cancel_edit));
-        mBtnOk.setBackgroundColor(ContextCompat.getColor(this, R.color.colorDim));
-        mBtnCancel.setBackgroundColor(ContextCompat.getColor(this, R.color.colorDim));
+
+        mBtnOk.setBackgroundColor(ContextCompat.getColor(this, R.color.colorNewDim));
+        mBtnOk.setTextColor(ContextCompat.getColor(this, R.color.colorNewDim1));
+
+        mBtnCancel.setBackgroundColor(ContextCompat.getColor(this, R.color.colorNewDim));
+        mBtnCancel.setTextColor(ContextCompat.getColor(this, R.color.colorNewDim1));
+
+        mBtnAddLesson.setBackgroundColor(ContextCompat.getColor(this, R.color.colorNewDim));
+        mBtnAddLesson.setTextColor(ContextCompat.getColor(this, R.color.colorNewDim1));
+
         mGrvTimeTable.setEnabled(false);
+        mBtnAddLesson.setEnabled(false);
         mBtnOk.setEnabled(false);
         mBtnCancel.setEnabled(false);
+        mBtnNext.setEnabled(false);
+        mBtnPrevious.setEnabled(false);
+        mTxtTimePeriod.setEnabled(false);
         disableView(mGrvTimeTable,false);
     }
 
@@ -361,10 +491,25 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
     }
 
     private void reActiveView() {
-        mFrDimView.setVisibility(View.GONE);
+        mCardView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorLightOrange));
+        mFrmDimView.setVisibility(View.GONE);
+        mLilListLesson.setBackgroundColor(ContextCompat.getColor(this, R.color.colorLightOrange));
+        mBtnNext.setEnabled(true);
+        mBtnPrevious.setEnabled(true);
+        mTxtTimePeriod.setEnabled(true);
+        mBtnAddLesson.setEnabled(true);
         mListLessonAdapter.setEditable(false);
+        mListLessonAdapter.notifyDataSetChanged();
+
+        mBtnAddLesson.setBackgroundColor(ContextCompat.getColor(this, R.color.colorHeaderCell));
+        mBtnAddLesson.setTextColor(ContextCompat.getColor(this, R.color.colorWhite));
+
         mBtnOk.setBackgroundColor(ContextCompat.getColor(this, R.color.colorHeaderCell));
+        mBtnOk.setTextColor(ContextCompat.getColor(this, R.color.colorWhite));
+
         mBtnCancel.setBackgroundColor(ContextCompat.getColor(this, R.color.colorHeaderCell));
+        mBtnCancel.setTextColor(ContextCompat.getColor(this, R.color.colorWhite));
+
         mBtnEditLesson.setText(getResources().getText(R.string.edit_lesson_name));
         disableView(mGrvTimeTable,true);
         mGrvTimeTable.setOnTouchListener(new View.OnTouchListener() {
@@ -378,11 +523,6 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
         });
         mBtnOk.setEnabled(true);
         mBtnCancel.setEnabled(true);
-    }
-
-    private void startEditActivity(String lessonName){
-
-
     }
 
     @Override
@@ -425,4 +565,10 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
         this.mTimeTableDatasource = mTimeTableDatasource;
     }
 
+
+    public void setListLesson(List<Lesson> allLessons) {
+        mListLessonAdapter.setListLesson(allLessons);
+        mTimeTableAdapter.notifyDataSetChanged();
+
+    }
 }

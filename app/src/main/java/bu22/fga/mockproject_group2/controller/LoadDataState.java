@@ -1,7 +1,6 @@
 package bu22.fga.mockproject_group2.controller;
 
 import android.os.Message;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ public class LoadDataState extends BaseState {
     @Override
     public void handeMessage(Message msg) {
 
-        fakeData();
+//        fakeData();
         int count = 0;
         String timestart = ((MainActivity) mController.getView()).getDaytimestrat();
         String timeend = ((MainActivity) mController.getView()).getDaytimeend();
@@ -33,7 +32,6 @@ public class LoadDataState extends BaseState {
         ArrayList<DayWithRegistedLesson> DayWithRegistedLessons = mUltilites.initTimeTableData();
 
         if (cout == 1) {
-            // Toast.makeText(mController.getView(), timestart + " " + timeend, Toast.LENGTH_LONG).show();
             ArrayList<DayWithRegistedLesson> arrayListDay = new ArrayList<>();
             Week week = mDatabaseHelper.getWeek(timestart, timeend);
             ArrayList<DayOfWeek> arrayList = week.getArrayList();
@@ -51,7 +49,6 @@ public class LoadDataState extends BaseState {
             ((MainActivity) mController.getView()).getmModel().setDataToLoad(DayWithRegistedLessons, mDatabaseHelper.getAllLessons(), true);
 
         }else {
-            Toast.makeText(mController.getView(),"Khoi dong",Toast.LENGTH_LONG).show();
 
             ((MainActivity)mController.getView()).getmModel().setDataToLoad(mUltilites.initTimeTableData(), mDatabaseHelper.getAllLessons(), true);
         }
@@ -67,7 +64,5 @@ public class LoadDataState extends BaseState {
         mDatabaseHelper.createLesson(new Lesson("Su"));
         mDatabaseHelper.createLesson(new Lesson("Dia"));
         mDatabaseHelper.createLesson(new Lesson("Toan"));
-
-
     }
 }

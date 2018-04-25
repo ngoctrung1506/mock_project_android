@@ -9,6 +9,7 @@ import bu22.fga.mockproject_group2.MainActivity;
 import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
+import bu22.fga.mockproject_group2.model.TimeTableModel;
 import bu22.fga.mockproject_group2.util.DatabaseHelper;
 
 /**
@@ -75,12 +76,10 @@ public class DragAndDropState extends BaseState {
             if (isListLessonWasDragged) {
                 List<Lesson> listLessonName = (((MainActivity) mController.getView())).getmModel().getListLessonName();
                 curLesson = listLessonName.get(((MainActivity) mController.getView()).getmModel().getCurentDrag());
-//            ((MainActivity)mController.getView()).getmModel().setDataForEditLessonForListLesson(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson());
 
             } else {
                 ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity) mController.getView()).getmModel().getTimeTable();
                 curLesson = timeTable.get(((MainActivity) mController.getView()).getmModel().getCurentDrag()).getLesson();
-//            ((MainActivity)mController.getView()).getmModel().setDataForEditLessonForTimeTable(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new DayWithRegistedLesson());
             }
 
             ((MainActivity) mController.getView()).getmModel().setDataForEditLesson(curentDrop, curLesson, ((MainActivity) mController.getView()).getmModel().getCurentDrag(), new DayWithRegistedLesson());
@@ -95,9 +94,9 @@ public class DragAndDropState extends BaseState {
             List<Lesson> listLessonName = ((MainActivity)mController.getView()).getmModel().getListLessonName();
             ((MainActivity)mController.getView()).getmModel().setDataForDeleteLesson(((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson(), "CaseListLesson");
 
+            mDatabase.delete(mDatabase.getAllLessons().get(mCurentDrag));
+            ((TimeTableModel)mController.getModel()).setResultListData(mDatabaseHelper.getAllLessons());
 
-
-//            mDatabase.delete(mDatabase.getAllLessons().get(mCurentDrag));
 
         } else {
             ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity)mController.getView()).getmModel().getTimeTable();
