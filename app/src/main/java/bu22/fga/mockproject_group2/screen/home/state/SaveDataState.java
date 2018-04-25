@@ -2,13 +2,15 @@ package bu22.fga.mockproject_group2.screen.home.state;
 
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
-import android.util.Log;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import bu22.fga.mockproject_group2.MainActivity;
 import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.controller.MainController;
+import bu22.fga.mockproject_group2.entity.DayOfWeek;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.entity.Week;

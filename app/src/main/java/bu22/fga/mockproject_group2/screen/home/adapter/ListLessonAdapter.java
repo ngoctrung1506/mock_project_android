@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bu22.fga.mockproject_group2.R;
 import bu22.fga.mockproject_group2.constant.Constant;
@@ -19,18 +20,18 @@ import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.screen.home.event.DragDropListenter;
 
 public class ListLessonAdapter extends BaseAdapter {
-    private ArrayList<Lesson> mDatasource;
+    private List<Lesson> mDatasource;
     private MainController mController;
     private boolean mIsEditable;
     private OnSendLessonNameBackToMainScreen mOnSendName;
     private View mTypeView;
 
 
-    public ListLessonAdapter(ArrayList<Lesson> lessons) {
+    public ListLessonAdapter(List<Lesson> lessons) {
         this.mDatasource = lessons;
     }
 
-    public ListLessonAdapter(ArrayList<Lesson> mDatasource, MainController mController,
+    public ListLessonAdapter(List<Lesson> mDatasource, MainController mController,
                              OnSendLessonNameBackToMainScreen onSendName) {
         this.mOnSendName = onSendName;
         this.mDatasource = mDatasource;
@@ -38,7 +39,7 @@ public class ListLessonAdapter extends BaseAdapter {
     }
 
 
-    public void setListData(ArrayList<Lesson> mDatasource) {
+    public void setListData(List<Lesson> mDatasource) {
         this.mDatasource = mDatasource;
         notifyDataSetChanged();
     }

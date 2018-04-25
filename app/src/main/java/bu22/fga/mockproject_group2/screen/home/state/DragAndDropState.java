@@ -79,28 +79,29 @@ public class DragAndDropState extends BaseState {
     }
 
     private void onEditLesson(Message msg) {
-        int curentDrop = msg.arg2;
-        boolean isListLessonWasDragged = ((MainActivity) ((MainActivity) mController.getView()))
-                .getmModel().isListLessonNameItem();
-        Lesson curLesson = null;
-        if (curentDrop != mCurentDrag) {
+      int curentDrop = msg.arg2;
+      boolean isListLessonWasDragged = ((MainActivity) ((MainActivity) mController.getView()))
+          .getmModel().isListLessonNameItem();
+      Lesson curLesson = null;
+      if (curentDrop != mCurentDrag) {
 
-            if (isListLessonWasDragged) {
-            List<Lesson> listLessonName = (((MainActivity)mController.getView())).getmModel().getListLessonName();
-             curLesson = listLessonName.get(((MainActivity)mController.getView()).getmModel().getCurentDrag());
+        if (isListLessonWasDragged) {
+          List<Lesson> listLessonName = (((MainActivity) mController.getView())).getmModel().getListLessonName();
+          curLesson = listLessonName.get(((MainActivity) mController.getView()).getmModel().getCurentDrag());
 //            ((MainActivity)mController.getView()).getmModel().setDataForEditLessonForListLesson(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson());
 
         } else {
-            ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity)mController.getView()).getmModel().getTimeTable();
-            curLesson = timeTable.get(((MainActivity)mController.getView()).getmModel().getCurentDrag()).getLesson();
+          ArrayList<DayWithRegistedLesson> timeTable = ((MainActivity) mController.getView()).getmModel().getTimeTable();
+          curLesson = timeTable.get(((MainActivity) mController.getView()).getmModel().getCurentDrag()).getLesson();
 //            ((MainActivity)mController.getView()).getmModel().setDataForEditLessonForTimeTable(curentDrop, curLesson, ((MainActivity)mController.getView()).getmModel().getCurentDrag(), new DayWithRegistedLesson());
         }
 
         ((MainActivity) mController.getView()).getmModel()
-                .setDataForEditLesson(curentDrop, curLesson,
-                        ((MainActivity) mController.getView()).getmModel().getCurentDrag(),
-                        new DayWithRegistedLesson(" "));
+            .setDataForEditLesson(curentDrop, curLesson,
+                ((MainActivity) mController.getView()).getmModel().getCurentDrag(),
+                new DayWithRegistedLesson(new Lesson(" ")));
 
+      }
     }
 
     private void onDeleteLesson() {

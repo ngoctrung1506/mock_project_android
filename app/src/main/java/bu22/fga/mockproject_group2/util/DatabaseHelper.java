@@ -299,6 +299,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(week_id)});
     }
 
+    public int getCoutWeek(String daystart,String dayend) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+
+        String query = "SELECT * FROM " + TABLE_WEEK + " WHERE " + KEY_START_DAY+ " = ?" + " AND " + KEY_END_DAY + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{daystart + "", dayend + ""});
+        Log.e(LOG, query);
+
+        // Cursor c = db.rawQuery(selectQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+
+        // return count
+        return count;
+    }
 
     /*
    * get single week ok
@@ -393,7 +409,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return day;
     }
 
+    public List<DayWithRegistedLesson> getALLDayWithRegisteDayOfWeek(long id) {
+        List<DayWithRegistedLesson> List = new ArrayList<DayWithRegistedLesson>();
 
+        String selectQuery = "SELECT  * FROM " + TABLE_DAYWITHLESSON + " WHERE "
+            + KEY_DAYWITHLESSON_ID_DAYOFWEED + " = " + id;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+
+                DayWithRegistedLesson dayWithRegistedLesson = new DayWithRegistedLesson();
+                dayWithRegistedLesson.setId_DayWithRegistedLesson(c.getInt((c.getColumnIndex(KEY_ID))));
+                dayWithRegistedLesson.setLesson(this.getLesson(c.getInt((c.getColumnIndex(KEY_DAYWITHLESSON_ID_LESSON)))));
+                dayWithRegistedLesson.setDayOfWeek(this.getDayOfWeek(c.getInt((c.getColumnIndex(KEY_DAYWITHLESSON_ID_DAYOFWEED)))));
+                ;
+                dayWithRegistedLesson.setPosition(c.getInt((c.getColumnIndex(KEY_DAYWITHLESSON_POSITION))));
+
+                // adding to todo list
+                List.add(dayWithRegistedLesson);
+            } while (c.moveToNext());
+        }
+
+        return List;
+    }
     /**
      * getting all DayOfWeek ok
      */
@@ -459,7 +503,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.e(LOG, String.valueOf(dayWithRegistedLesson.getId_DayWithRegistedLesson()));
         // updating row
         return db.update(TABLE_DAYWITHLESSON, values, KEY_ID + " = ?",
-                new String[]{String.valueOf(id)});
+            new String[]{String.valueOf(id)});
+    }
 
     public int updateDayRegistedLessonName(int lessonId) {
 
