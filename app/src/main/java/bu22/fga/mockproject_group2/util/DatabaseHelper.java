@@ -638,5 +638,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_LESSON, null, values);
 
     }
+
+    public Week getWeek(String daystart,String dayend) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_WEEK + " WHERE " + KEY_START_DAY+ " = ?" + " AND " + KEY_END_DAY + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{daystart + "", dayend + ""});
+        Log.e(LOG, query);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Week td = new Week();
+        td.setId_Week(cursor.getInt(cursor.getColumnIndex(KEY_WEEK_ID)));
+        td.setStartDay(cursor.getString(cursor.getColumnIndex(KEY_START_DAY)));
+        td.setEndDay(cursor.getString(cursor.getColumnIndex(KEY_END_DAY)));
+        td.setArrayList((ArrayList<DayOfWeek>) this.getAllDayOfWeek(cursor.getInt(cursor.getColumnIndex(KEY_WEEK_ID))));
+        return td;
+    }
 }
 

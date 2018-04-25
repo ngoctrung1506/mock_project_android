@@ -29,6 +29,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import bu22.fga.mockproject_group2.adapter.ListLessonAdapter;
+import bu22.fga.mockproject_group2.adapter.TimeTableAdapter;
 import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.controller.MainController;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
@@ -36,14 +38,11 @@ import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.entity.Week;
 import bu22.fga.mockproject_group2.model.TimeTableModel;
 import bu22.fga.mockproject_group2.screen.editlesson.EditLessonActivity;
-import bu22.fga.mockproject_group2.screen.home.adapter.ListLessonAdapter;
-import bu22.fga.mockproject_group2.screen.home.adapter.ListLessonAdapter.OnSendLessonNameBackToMainScreen;
-import bu22.fga.mockproject_group2.screen.home.adapter.TimeTableAdapter;
 import bu22.fga.mockproject_group2.util.DatabaseHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements OnSendLessonNameBackToMainScreen {
+public class MainActivity extends AppCompatActivity implements ListLessonAdapter.OnSendLessonNameBackToMainScreen {
 
     @BindView(R.id.main_grv_time_table)
     GridView mGrvTimeTable;

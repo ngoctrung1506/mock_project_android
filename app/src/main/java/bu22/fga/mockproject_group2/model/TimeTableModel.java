@@ -112,7 +112,7 @@ public class TimeTableModel
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null,null);
     }
 
-    public void setmListLessonName(ArrayList<Lesson> mListLessonName) {
+    public void setmListLessonName(List<Lesson> mListLessonName) {
         this.mListLessonName = mListLessonName;
     }
 }
