@@ -10,7 +10,6 @@ import bu22.fga.mockproject_group2.constant.Constant;
 import bu22.fga.mockproject_group2.entity.DayWithRegistedLesson;
 import bu22.fga.mockproject_group2.entity.Lesson;
 import bu22.fga.mockproject_group2.model.TimeTableModel;
-import bu22.fga.mockproject_group2.util.DatabaseHelper;
 
 /**
  * Created by Admin on 19/04/2018.
@@ -20,9 +19,6 @@ public class DragAndDropState extends BaseState {
 
     public static final int LIST_LESSON = 1;
     public static final int TIME_TABLE = 2;
-    private Lesson mLesson;
-    private String mNameLesson;
-    private DatabaseHelper mDatabase = new DatabaseHelper(mController.getView().getApplicationContext());
     private int mCurentDrag;
 
     public DragAndDropState(MainController mController) {
@@ -94,7 +90,7 @@ public class DragAndDropState extends BaseState {
             List<Lesson> listLessonName = ((MainActivity)mController.getView()).getmModel().getListLessonName();
             ((MainActivity)mController.getView()).getmModel().setDataForDeleteLesson(((MainActivity)mController.getView()).getmModel().getCurentDrag(), new Lesson(), "CaseListLesson");
 
-            mDatabase.delete(mDatabase.getAllLessons().get(mCurentDrag));
+            mDatabaseHelper.delete(mDatabaseHelper.getAllLessons().get(mCurentDrag));
             ((TimeTableModel)mController.getModel()).setResultListData(mDatabaseHelper.getAllLessons());
 
 

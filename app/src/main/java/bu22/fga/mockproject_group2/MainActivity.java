@@ -312,9 +312,7 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
     private void handleLoadData() {
         if (mModel.isFinishedLoadData()) {
             mTimeTableDatasource.clear();
-
             mTimeTableAdapter.setListData(mModel.getTimeTable());
-
             mLessons.clear();
             mListLessonAdapter.setListLesson(mModel.getListLessonName());
         }
@@ -370,7 +368,12 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
                         mLesson = new Lesson(editTextAddLesson.getText().toString().trim());
                         mDatabaseHelper.addLesson(mLesson);
                         mListLessonAdapter.setListData(mDatabaseHelper.getAllLessons());
-                        mModel.setmListLessonName(mDatabaseHelper.getAllLessons());
+                        mListLessonAdapter.notifyDataSetChanged();
+
+                        mModel.setResultListData(mDatabaseHelper.getAllLessons());
+//                        Message msg = new Message();
+//                        msg.what = Constant.LOAD_DATA;
+//                        mController.sendMessage(msg);
                         Toast.makeText(MainActivity.this, "Add succesfully", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -463,6 +466,7 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
         mCardView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorNewDim));
         mFrmDimView.setVisibility(View.VISIBLE);
         mListLessonAdapter.setEditable(true);
+        mListLessonAdapter.notifyDataSetChanged();
         mBtnEditLesson.setText(getResources().getText(R.string.cancel_edit));
 
         mBtnOk.setBackgroundColor(ContextCompat.getColor(this, R.color.colorNewDim));
@@ -481,6 +485,7 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
         mBtnNext.setEnabled(false);
         mBtnPrevious.setEnabled(false);
         mTxtTimePeriod.setEnabled(false);
+        mImgRecycleBin.setEnabled(false);
         disableView(mGrvTimeTable,false);
     }
 
@@ -491,6 +496,7 @@ public class MainActivity extends AppCompatActivity implements ListLessonAdapter
     }
 
     private void reActiveView() {
+        mImgRecycleBin.setEnabled(true);
         mCardView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorLightOrange));
         mFrmDimView.setVisibility(View.GONE);
         mLilListLesson.setBackgroundColor(ContextCompat.getColor(this, R.color.colorLightOrange));

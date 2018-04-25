@@ -88,7 +88,6 @@ public class TimeTableModel
         this.mTimeTable = listTimeTableData;
         this.mListLessonName = listLessonName;
         this.finishedLoadData = finishedLoadData;
-
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA, null, null);
     }
 
@@ -120,6 +119,7 @@ public class TimeTableModel
     }
 
     public void setResultListData(List<Lesson> allLessons) {
+        this.mListLessonName.clear();
         this.mListLessonName = allLessons;
         mPropertyChangeSupport.firePropertyChange(EVENT_LOAD_DATA_AFTER_DELETE, null, null);
     }

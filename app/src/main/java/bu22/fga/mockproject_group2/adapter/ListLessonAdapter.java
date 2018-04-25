@@ -3,7 +3,6 @@ package bu22.fga.mockproject_group2.adapter;
 import android.content.ClipData;
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,10 +32,9 @@ public class ListLessonAdapter extends BaseAdapter {
     }
 
     public void setListData(List<Lesson> mDatasource) {
+        this.mDatasource.clear();
         this.mDatasource = mDatasource;
-        notifyDataSetChanged();
     }
-
 
     @Override
     public int getCount() {
@@ -59,33 +57,32 @@ public class ListLessonAdapter extends BaseAdapter {
            Context context = viewGroup.getContext();
            Lesson lesson = null;
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            ViewHolder vh;
+            ViewHolder vh = null;
             if (view == null) {
                 vh = new ViewHolder();
                 view = inflater.inflate(R.layout.item_row, viewGroup, false);
                 vh.mTvName = view.findViewById(R.id.it_tv_lesson_name);
                 view.setTag(vh);
-                Log.d("edit", "addListener: " + mIsEditable);
-                if(i < mDatasource.size()) {
-                    lesson = getItem(i);
-                    view.setId(R.id.always + i + 49);
-                    vh.mTvName.setText(lesson.getName());
-                    addListener(view.getRootView(), i, lesson.getName());
-                }
             } else {
                 vh = (ViewHolder) view.getTag();
             }
+
+        if(i < mDatasource.size()) {
+            lesson = getItem(i);
+            view.setId(R.id.always + i + 49);
+            vh.mTvName.setText(lesson.getName());
+            addListener(view, i, lesson.getName());
+        }
+        else vh.mTvName.setText("");
 
         return view;
     }
 
     public void setEditable(boolean editable) {
         mIsEditable = editable;
-//        this.notifyDataSetChanged();
     }
 
     private void addListener(View view, final int i, final String lessonName) {
-        Log.d("edit", "addListener: " + mIsEditable);
         if (!mIsEditable) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -102,6 +99,7 @@ public class ListLessonAdapter extends BaseAdapter {
             view.setOnDragListener(new DragDropListenter(mController, i));
         } else {
             view.setOnTouchListener(null);
+
             view.setOnDragListener(null);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
